@@ -29,7 +29,7 @@ const StudyInfo2 = () => {
         </p>
         
         <p className="medium-body-text-info">
-          We might invite you back to participate in the next part of the study within the next 24 hours. 
+          We might invite you back to participate in the next part of the study within the next 12 hours. 
         </p>
 
         <p className="medium-body-text-info">
