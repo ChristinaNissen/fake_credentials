@@ -72,8 +72,8 @@ function App() {
 
       <VoteContext.Provider value={{ userSelectedYes, setUserSelectedYes, selectedImage, setSelectedImage, selectedImageName, setSelectedImageName, selectedImageIndex, setSelectedImageIndex }}>
         <Routes>
-          <Route path="/" element={<ConsentForm />} />
-          <Route path="/consent" element={<ConsentForm2 />} />
+          <Route path="/consent" element={<ConsentForm />} />
+          <Route path="/" element={<ConsentForm2 />} />
           <Route path="/studyinfo1" element={<StudyInfo1 />} />
           <Route path="/studyinfo2" element={<StudyInfo2 />} />
           <Route path="/studyinfo3" element={<StudyInfo3 />} />
