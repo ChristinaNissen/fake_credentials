@@ -5,6 +5,7 @@ import "./study-info.css";
 const StudyInfo4 = () => {
   const [userID, setUserID] = useState(null);
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     useEffect(() => {
     window.scrollTo(0, 0);
@@ -115,14 +116,40 @@ const StudyInfo4 = () => {
          <button
           className="study-button"
           style={{ marginTop: "2rem" }}
-          onClick={async () => {
-            await logoutVoter();
-            window.location.href =
-              "https://www.survey-xact.dk/LinkCollector?key=T5JG3UXLJ215&condition=1.0&longvarnames=";
-          }}
+               onClick={() => setShowConfirmModal(true)}
         >
-          Go to survey
+          Go to next platform
         </button>
+
+        {showConfirmModal && (
+          <div className="modal-overlay">
+            <div className="modal-box">
+              <h3 className="modal-title">Important</h3>
+              <p className="modal-message">
+                Once you proceed to the next platform, you will not be able to return to retrieve your number. Please make sure you have copied it before continuing.
+              </p>
+              <div className="modal-buttons">
+                <button
+                  className="modal-button cancel-btn"
+                  onClick={() => setShowConfirmModal(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="modal-button understand-btn"
+                  onClick={async () => {
+                    setShowConfirmModal(false);
+                    await logoutVoter();
+                    window.location.href =
+                      "https://www.survey-xact.dk/LinkCollector?key=T5JG3UXLJ215&condition=1.0&longvarnames=";
+                  }}
+                >
+                  I understand
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
