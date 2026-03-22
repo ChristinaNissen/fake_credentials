@@ -129,6 +129,23 @@ The voting system you are testing is designed to help prevent coercion in online
               https://www.back4app.com/privacy.pdf
             </a>
           </li>
+
+             <li className="text-margin-top">
+            <span className="bold-text">SurveyXact:</span> We use SurveyXact to
+            carry out the survey. Personal data (gender, age, nationality, level
+            of education) will be collected through the questions and stored on
+            the SurveyXact platform. Please refer to SurveyXact’s privacy
+            policy for more information:{" "}
+            <a
+              className="info-link"
+              href="https://www.surveyxact.com/product/data-security/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              https://www.surveyxact.com/product/data-security/
+            </a>
+          </li>
+          
         </ul>
         <h3 className="title-margin-top">Researchers</h3>
         <ul>
