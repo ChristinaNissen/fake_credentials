@@ -54,7 +54,7 @@ const StudyInfo2 = () => {
 
         <p className="medium-body-text-info">
           To connect your voting results with your response on the next platform,
-          please copy the number below and paste it as the first step after you
+          please copy the number below and paste it into the survey platform as the first step after you
           click the button.
         </p>
 
