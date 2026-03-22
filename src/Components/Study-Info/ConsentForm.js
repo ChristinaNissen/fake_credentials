@@ -53,7 +53,7 @@ const ConsentForm = () => {
           </a>
           After completing the study, you may still request to have your data deleted until 14 days after submitting the survey by contacting the researchers and providing your Prolific ID, which allows us to locate and remove your data. After this deadline, it will no longer be possible to delete your data.
         </p>
-          <h3 className="title-margin-top">Ethical Considerations and Your Wellbeing</h3>
+          <h3 className="title-margin-top">Ethical considerations and your wellbeing</h3>
         <p>
 The voting system you are testing is designed to help prevent coercion in online voting. During the study, you may encounter situations that explore how the system handles different voting scenarios. If you experience any discomfort or distress at any point, you can leave the study without any penalty.        </p>
         <h3 className="title-margin-top">Compensation</h3>
@@ -90,7 +90,7 @@ The voting system you are testing is designed to help prevent coercion in online
           edited to replace given personal information with placeholders as to
           anonymize it.
         </p>
-        <h3 className="title-margin-top">Third Parties</h3>
+        <h3 className="title-margin-top">Third parties</h3>
         <p>
           We use the following third party services in connection with this
           study:
