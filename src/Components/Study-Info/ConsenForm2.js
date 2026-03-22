@@ -60,7 +60,7 @@ const ConsentForm2 = () => {
 The voting system you are testing is designed to help prevent coercion in online voting. During the study, you may encounter situations that explore how the system handles different voting scenarios. If you experience any discomfort or distress at any point, you can leave the study without any penalty.        </p>
         <h3 className="title-margin-top">Compensation</h3>
         <p>
-          Each participant will receive 1.95 £ at the conclusion of the study
+          Each participant will receive 2.25 £ at the conclusion of the study
           through Prolific.
         </p>
         <h3 className="title-margin-top">How we handle and delete the data</h3>
