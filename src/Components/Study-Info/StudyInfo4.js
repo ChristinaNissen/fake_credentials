@@ -122,21 +122,21 @@ const StudyInfo4 = () => {
         </button>
 
         {showConfirmModal && (
-          <div className="modal-overlay">
-            <div className="modal-box">
-              <h3 className="modal-title">Important</h3>
-              <p className="modal-message">
-                Once you proceed to the next platform, you will not be able to return to retrieve your number. Please make sure you have copied it before continuing.
+          <div className="study-modal-backdrop">
+            <div className="study-modal study-info-confirm-modal">
+              <h2>Important</h2>
+              <p>
+                Once you proceed to the next platform, you may not be able to return to retrieve your number. Please make sure you have copied it before continuing.
               </p>
-              <div className="modal-buttons">
+              <div className="study-modal-actions">
                 <button
-                  className="modal-button cancel-btn"
+                  className="study-button-secondary"
                   onClick={() => setShowConfirmModal(false)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="modal-button understand-btn"
+                  className="study-button"
                   onClick={async () => {
                     setShowConfirmModal(false);
                     await logoutVoter();

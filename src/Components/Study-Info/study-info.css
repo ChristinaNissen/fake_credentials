@@ -348,28 +348,30 @@
 }
 
 /* Modal Styles */
-.modal-overlay {
+.study-modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 2000;
 }
 
-.modal-box {
-  background-color: #fff;
-  border-radius: 12px;
-  padding: 32px;
-  max-width: 500px;
-  width: 90%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+.study-modal {
+  background: #e3f0ff;
+  border-radius: 8px;
+  padding: 18px 24px;
+  max-width: 700px;
+  width: 100%;
+  margin: 20px auto;
+  box-shadow: 0 4px 24px rgba(25, 118, 210, 0.10);
   border: 2px solid #1976d2;
   animation: slideIn 0.3s ease-out;
+  box-sizing: border-box;
 }
 
 @keyframes slideIn {
@@ -383,56 +385,83 @@
   }
 }
 
-.modal-title {
-  font-size: 1.5rem;
-  font-weight: bold;
+.study-modal h2 {
   color: #1976d2;
-  margin: 0 0 16px 0;
-  text-align: center;
+  font-size: 2.1rem;
+  margin-bottom: 1rem;
 }
 
-.modal-message {
-  font-size: 1rem;
-  color: #333;
-  line-height: 1.6;
-  margin: 0 0 24px 0;
-  text-align: center;
+.study-modal p {
+  margin-bottom: 2rem;
+  font-size: 1.18rem;
 }
 
-.modal-buttons {
+.study-modal-actions {
   display: flex;
-  gap: 12px;
+  gap: 16px;
   justify-content: center;
 }
 
-.modal-button {
-  padding: 10px 24px;
-  font-size: 1rem;
+.study-modal .study-button {
+  padding: 0.7em 2.5em;
+  font-size: 1.15rem;
   border: none;
   border-radius: 6px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: all 0.2s ease;
-  min-width: 120px;
-}
-
-.understand-btn {
   background-color: #1976d2;
   color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s;
+  min-width: 8rem;
+  margin-top: 0px;
 }
 
-.understand-btn:hover {
+.study-modal .study-button:hover {
   background-color: #0d47a1;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
 }
 
-.cancel-btn {
-  background-color: #e0e0e0;
-  color: #333;
+.study-modal .study-button-secondary {
+  padding: 0.7em 2.5em;
+  font-size: 1.15rem;
+  border: 2px solid #1976d2!important;
+  border-radius: 6px;
+  background-color: #d6e8ff;
+  color: #1976d2;
+  cursor: pointer;
+  min-width: 8rem;
+  font-weight: bold;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
 }
 
-.cancel-btn:hover {
-  background-color: #d0d0d0;
-  transform: translateY(-2px);
+.study-modal .study-button-secondary:hover {
+  background-color: #c4dcff;
+  color: #1976d2 !important;
+  border-color: #1976d2;
+}
+
+/* Scope confirmation modal button styles to StudyInfo2 to avoid cross-component overrides */
+.study-modal.study-info-confirm-modal .study-button,
+.study-modal.study-info-confirm-modal .study-button-secondary {
+  font-size: 1.1rem;
+  padding: 0.7em 2.5em;
+}
+
+.study-modal.study-info-confirm-modal .study-button-secondary {
+  /* Compensate for 2px border so visual height matches primary buttons */
+  padding: calc(0.7em - 2px) 2.5em;
+}
+
+.study-modal.study-info-confirm-modal .study-button-secondary {
+  background-color: #d6e8ff !important;
+  color: #1976d2 !important;
+  border: 2px solid #1976d2 !important;
+}
+
+.study-modal.study-info-confirm-modal .study-button-secondary:hover {
+  background-color: #c4dcff !important;
+  color: #1976d2 !important;
+  border-color: #1976d2 !important;
 }
