@@ -61,7 +61,7 @@ const StudyInfo4 = () => {
           We need to be able to connect your results from the voting system with
           the survey. Therefore, you have to copy the number just below and
           paste it into the survey as the very first thing, after you click the button
-          below.
+          below. If no number appears, please proceed to the survey without it.
         </p>
 
         <div style={{ marginTop: "2rem", width: "80%", position: "relative" }}>
