@@ -182,8 +182,8 @@ const VisualSelectionPicture = () => {
       // Use the calculated isCorrect value directly instead of the state
       await saveCorrectSelections(Boolean(isCorrect));
       console.log("Saved to DB! isCorrect:", isCorrect);
-    navigate("/voting", { state: { userSelectedYes } });
-    //navigate("/voting2", { state: { userSelectedYes } });
+    //navigate("/voting", { state: { userSelectedYes } });
+    navigate("/voting2", { state: { userSelectedYes } });
     } catch (error) {
       console.error("Error saving ballot selections:", error);
     }
