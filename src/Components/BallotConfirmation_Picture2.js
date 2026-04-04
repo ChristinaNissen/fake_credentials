@@ -173,12 +173,12 @@ function BallotConfirmationPicture2(setIsLoggedIn) {
           <div className="intro-container">
           <h1 className="intro-title">Confirmation</h1>
           <div className="text-main text-main-confirmation">
-            You have cast your ballot succesfully! Below is a visual presentation of your cast ballot. 
+            You have cast your ballot succesfully! Below is a vote identifier of your cast ballot. 
           </div>
            <div className="security-box-confirmation">
             <p className="text-small">
               <strong>Security Feature:</strong><br/>
-              This picture is a unique visual identifier linked to your voting record. You will need to remember this picture from memory if you wish to update your vote later in the election.
+              This unique vote identifier is linked to your voting record. You will need to remember this vote identifier if you wish to change your vote later in the election.
             </p>
           </div>
         </div>
@@ -187,7 +187,7 @@ function BallotConfirmationPicture2(setIsLoggedIn) {
 
         <div className="card-wide card-confirmation">
          <h1 className="card-title"style={{ width: "100%", textAlign: "left", margin: "0 0 10px 40px" }}>
-            Picture 
+            Vote Identifier
           </h1>
 
             <div
@@ -196,16 +196,26 @@ function BallotConfirmationPicture2(setIsLoggedIn) {
   >
     <ul>
       <li>
-        You need to <strong>remember</strong> this picture if you want to update your vote later in the election.
+        You need to <strong>remember</strong> your vote identifier(s) if you want to change your vote later in the election.
       </li>
       <li>
-        You should <strong>not share</strong> your picture with anyone, and you should <strong>not save</strong> it anywhere.
+        You should <strong>not share</strong> your vote identifier(s) with anyone, and you should <strong>not save</strong> them anywhere.
       </li>
-       <li>
-        If you forget this picture, you will <strong>NOT be able to update your vote</strong> later in the election.
+      <li>
+        If you forget your vote identifier(s), you will <strong>not be able to update your vote succesfully</strong> later in the election.
       </li>
     </ul>
   </div>
+        <div className="confirmation-info">
+                 <div className="text-small" style={{ marginTop: "10px", marginBottom: "4px" }}>
+            Your vote identifier is:
+          </div>
+                 <div className="confirmation-card-label" style={{fontWeight: "bold", fontSize: "2.5rem", marginTop: "0px"}}>
+            {imageName}
+          </div>
+              <div className="confirmation-datetime">{dateTime}</div>
+              <div className="confirmation-candidate"> {votedCandidate}</div>
+            </div>
           <img
           className="image-picture"
             src={image_visual}
@@ -214,6 +224,7 @@ function BallotConfirmationPicture2(setIsLoggedIn) {
               maxWidth: "100%",
               maxHeight: "400px",
               marginTop: "0px",
+              marginBottom: "20px",
               borderColor: "#c1bfbfff",
               borderWidth: "2px",
               borderStyle: "solid"
@@ -221,13 +232,7 @@ function BallotConfirmationPicture2(setIsLoggedIn) {
           />
        
 
-            <div className="confirmation-info">
-                 <div className="confirmation-card-label" style={{fontWeight: "bold", fontSize: "1.5rem", marginTop: "10px"}}>
-            {imageName}
-          </div>
-              <div className="confirmation-datetime">{dateTime}</div>
-              <div className="confirmation-candidate"> {votedCandidate}</div>
-            </div>
+           
         
         </div>
         
@@ -240,8 +245,8 @@ function BallotConfirmationPicture2(setIsLoggedIn) {
     <div className="modal-confirmation">
       <p style={{ fontSize: "18px", fontWeight: "bold" }}>Are you sure you want to log out?</p>
        <p>
-        When you log out, you will not be able to view your picture again.<br />
-        If you forget your picture, you will <strong>NOT be able to update your vote</strong> later in the election.
+        You will not be able to view your vote identifier <strong>{imageName}</strong> again.<br />
+        If you forget your vote identifier, you will not be able to update your vote successfully later in the election.
       </p>
       <div style={{ display: "flex", gap: "16px", justifyContent: "center", marginTop: "16px" }}>
         <button className="button" onClick={handleLogout}>Yes</button>

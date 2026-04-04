@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./study-info.css";
-import Instructions from "../../Assets/Instructions_e-voting.pdf";
+import Instructions from "../../Assets/Voting_System_Instructions.pdf";
 import { downloadFile } from "../../util";
 
 const StudyInfo1 = () => {
@@ -44,7 +44,13 @@ const StudyInfo1 = () => {
             <div className="step-number">1</div>
             <div className="step-content">
               <p>
-                All candidates are fictional. For this first part of the study, we ask you to vote for the candidate 'John Doe', as if this is your <strong>first time voting</strong> in the election using the voting system.
+Imagine that today is the day of a general election in your country. You are at home, using your own device, and have decided to vote through a newly introduced online voting system designed to make participation easier and more accessible.
+<br></br>
+<br></br>
+You have already decided to support the candidate John Doe. Please use the online voting system to go through the process and cast your vote for this candidate, just as you would if this were a real election.
+<br></br>
+<br></br>
+Take your time and interact with the system in a way that feels natural to you, as if your vote truly matters.
               </p>
               <label className="check-box blue-bg-highlight">
                 <input
@@ -53,7 +59,7 @@ const StudyInfo1 = () => {
                   onChange={handleChangeCheckbox}
                   className="blue-bg-highlight"
                 />
-                I understand and will cast a vote for 'John Doe' as if this is my first time voting in the election.
+I understand that I should vote for “John Doe” in the election.
               </label>
             </div>
           </div>
@@ -64,12 +70,12 @@ const StudyInfo1 = () => {
           <div className="step-row">
             <div className="step-number">2</div>
             <div className="step-content">
-            
+            <p>
                 Please download the instructions which you need to follow to complete the General Election 2025.
          
               
                 In a real election you would get these instructions as a physical or digital letter by the election authorities.
-            
+            </p>
             
               <button
                 type="button"
@@ -95,7 +101,8 @@ const StudyInfo1 = () => {
 
           <hr className="step-divider" />
 
-          <div style={{ paddingTop: "1rem" }}>
+          <div >
+            <p> In the next step, you will be redirected to the front page of the voting system. Click “Start” to proceed.</p>
             <button
               id="submit-pid"
               type="submit"

@@ -119,11 +119,16 @@
   .ballot-party {
     font-size: 16px;
     margin-bottom: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     padding-left: 4px;      /* Add a little padding for visual space */
     padding-right: 4px;
+    min-width: 0;
+  }
+
+  .ballot-candidate {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
   }
 
   .button-wrapper {
@@ -166,9 +171,14 @@
   .ballot-party {
     font-size: 15px;
     margin-bottom: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .ballot-candidate {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    overflow-wrap: anywhere;
   }
 }
 

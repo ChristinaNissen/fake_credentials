@@ -40,8 +40,8 @@ const VotedBefore = () => {
       } else if (selected === false) {
         setUserSelectedYes(false);
         await saveVotedBefore(false);
-        //navigate("/voting");
-        navigate("/voting2");
+        navigate("/voting");
+        //navigate("/voting2");
       }
     } catch (error) {
       console.error("Error saving vote:", error);
@@ -63,7 +63,8 @@ const VotedBefore = () => {
         <div className="security-box-voted-before">
           <p className="text-small">
             <strong>Security Feature:</strong><br />
-            This step ensures that you can update your vote. If this is your first time voting in this election, click "<strong>No</strong>" below. If you want to update your previous vote, click "<strong>Yes</strong>" below, then identify your previous vote(s) by selecting the pictures you have seen before, and cast your new vote.        </p>
+            This step ensures that you can update your vote. If this is your first time voting in this election, click "<strong>No</strong>" below. If you want to update your previous vote, click "<strong>Yes</strong>" below.
+          </p>
         </div>
         <div className="card-wide voted-before" style={{ padding: "40px 20px" }}>
           <div className="box-container">

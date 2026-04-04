@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Footer from "./Footer";
 import "./Welcome.css";
 import votingIllustration from "../Assets/Banner.png";
-import overviewImg from "../Assets/Picture.png";
+import overviewImg from "../Assets/skærm3.png";
 
 const infoData = [
 	{
@@ -65,8 +65,8 @@ const Welcome = () => {
 							<div>Answer the question to proceed</div>
 						</li>
 						<li>
-						<strong>Identify Previous Ballots</strong>
-							<div>If yes, select your previous ballot card(s)</div>
+						<strong>Identify Previous Votes</strong>
+							<div>If yes, select the vote identifier(s) shown to you after casting your previous vote(s)</div>
 						</li>
 						<li>
 						<strong>Voting</strong>
@@ -74,7 +74,7 @@ const Welcome = () => {
 						</li>
 						<li>
 						<strong>Confirmation</strong>
-							<div>Confirmation with your ballot card</div>
+							<div>Get your vote identifier</div>
 						</li>
 					</ul>
 					</div>

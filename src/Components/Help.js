@@ -57,17 +57,17 @@ const helpSections = [
             <ol className="list-decimal pl-6 space-y-1">
               <li>Indicate whether you have voted before in this election.</li>
               <li>
-                If you select <em>Yes</em>, identify your previous vote(s) by selecting the card(s) you saw when casting your previous vote(s). Each card has a background color, a number (1–10), and a combination of emoji to help you recognise it.
+                If you select <em>Yes</em>, identify your previous vote(s) by selecting the vote identifier(s) you saw when casting your previous vote(s).
               </li>
               <li>
                 Cast your vote by choosing your candidate and submitting your ballot.
               </li>
               <li className="space-y-2">
   <span>
-    After submitting your ballot, a confirmation screen will display a card linked to your submitted ballot. The card is shown only during this session and will not be shown again after you leave the voting system.
+    After submitting your ballot, a confirmation screen will display a vote identifier linked to your submitted ballot. The vote identifier is shown only during this session and will not be shown again after you leave the voting system.
   </span>
   <p>
-    For security reasons, you should not save, photograph, or record your card. The system is designed so that no proof of your vote can be created.
+    For security reasons, you should not save, photograph, or record your vote identifier. The system is designed so that no proof of your vote can be created.
   </p>
 </li>
 
@@ -115,7 +115,7 @@ const helpSections = [
               The online voting system allows you to recast your vote as many times as you wish until the election closes.
             </p>
             <p>
-              Each time you revote, the system will ask you to identify your previous vote(s) using the card(s) you saw when voting earlier. This includes all previous voting attempts, even if a vote was later replaced.
+              Each time you revote, the system will ask you to identify your previous vote(s) using the vote identifier(s) you saw when voting earlier. This includes all previous voting attempts, even if a vote was later replaced.
             </p>
             <p>
               Only your last valid online vote will count. If you also vote in person, your in-person vote takes precedence.
@@ -129,19 +129,19 @@ const helpSections = [
         content: (
           <div className="space-y-2">
             <p>
-              To identify your previously cast vote(s), you need to select the card(s) shown to you immediately after submitting your vote(s).
+              To identify your previously cast vote(s), you need to select the vote identifier(s) shown to you immediately after submitting your vote(s).
             </p>
             <p>
-              <strong>Important:</strong> You must select <em>all</em> cards you have seen before, including cards from any previous attempts, even if a vote was later replaced.
+              <strong>Important:</strong> You must select <em>all</em> vote identifiers you have seen before, including identifiers from any previous attempts, even if a vote was later replaced.
             </p>
             <p>
               The system will not provide feedback on whether your selection is correct.
             </p>
             <p>
-              If you do not select the correct card(s), your vote will not be updated. Your submission will be considered invalid.
+              If you do not select the correct vote identifier(s), your vote will not be changed. Your submission will be considered invalid.
             </p>
             <p>
-              If you cannot remember or find your card(s), you can always vote in person at your local polling station.
+              If you cannot remember or find your vote identifier(s), you can always vote in person at your local polling station.
             </p>
           </div>
         ),
@@ -156,10 +156,10 @@ const helpSections = [
             </p>
             <ul className="list-disc pl-6 space-y-1">
               <li>
-                <strong>Identity verification:</strong> Only you can update your vote by recognising the cards that you saw during your previous vote(s). This confirms that you were the person who cast them.
+                <strong>Identity verification:</strong> Only you can update your vote by recognising the vote identifier(s) that you saw during your previous vote(s). This confirms that you were the person who cast them.
               </li>
               <li>
-                <strong>Anti-coercion protection:</strong> This allows you to invalidate a coerced vote without others knowing, either by intentionally selecting the wrong cards when identifying previous votes or by answering the question about whether you have voted before in a way that does not reveal your true voting history.
+                <strong>Anti-coercion protection:</strong> This allows you to invalidate a coerced vote without others knowing, either by intentionally selecting the wrong vote identifier(s) when identifying previous votes or by answering the question about whether you have voted before in a way that does not reveal your true voting history.
               </li>
             </ul>
           </div>
@@ -212,7 +212,7 @@ const helpSections = [
             </p>
             <ul className="list-disc pl-6 space-y-1">
               <li>
-                <strong>Answer or select incorrectly:</strong> You can protect yourself by intentionally answering the question about whether you have voted before incorrectly, or by selecting the wrong card(s) when asked to identify previous votes. This will cause the coerced vote to be invalid.
+                <strong>Answer or select incorrectly:</strong> You can protect yourself by intentionally answering the question about whether you have voted before incorrectly, or by selecting the wrong vote identifier(s) when asked to identify previous votes. This will cause the coerced vote to be invalid.
               </li>
               <li>
                 <strong>Vote again later:</strong> You may comply under pressure and cast a vote as instructed, then vote again later in private. If you correctly identify your previous votes when revoting, your new vote will be valid and replace the coerced one.

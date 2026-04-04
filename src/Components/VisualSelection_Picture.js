@@ -182,8 +182,8 @@ const VisualSelectionPicture = () => {
       // Use the calculated isCorrect value directly instead of the state
       await saveCorrectSelections(Boolean(isCorrect));
       console.log("Saved to DB! isCorrect:", isCorrect);
-    //navigate("/voting", { state: { userSelectedYes } });
-    navigate("/voting2", { state: { userSelectedYes } });
+    navigate("/voting", { state: { userSelectedYes } });
+    //navigate("/voting2", { state: { userSelectedYes } });
     } catch (error) {
       console.error("Error saving ballot selections:", error);
     }
@@ -214,32 +214,32 @@ const VisualSelectionPicture = () => {
         <div className="intro-container intro-selection">
           <h1 className="intro-heading">Identification <span className="break-after-of">of</span> Previously Cast Ballots</h1>
           <div className="text-main text-main-confirmation text-main-selection">
-            Please select all pictures below that you have seen when casting your previous ballots.
+            Please select all vote identifiers below that you have seen when casting your previous ballots.
           </div>
           <div className="security-box-selection">
             <p className="text-small">
               <strong>Security Feature:</strong><br/>
-This step verifies your identity, ensuring that only you can update your vote by recognising the pictures shown to you after your previous voting session(s).            </p>
+This step verifies your identity, ensuring that only you can change your vote by recognising the vote identifier(s) shown at your previous voting session(s).            </p>
           </div>
         </div>
         <div className="card-wide">
           <h1 className="card-heading-select" style={{ width: "100%", textAlign: "left", margin: "0 0 10px 40px" }}>
-            Select your pictures
+            Select your vote identifiers
           </h1>
           <div className="instruction-list" style={{ maxWidth: "800px", margin: "0 auto 20px auto", textAlign: "left", paddingLeft: "35px" }}>
             <ul>
-              <li>You must select <strong>all</strong> the pictures below that you have seen when casting your previous ballots. This includes pictures from both valid and invalid ballots.</li>
+              <li>You must select <strong>all</strong> the vote identifiers below that you have seen when casting your previous ballots. This includes identifiers from both valid and invalid ballots.</li>
               <li>The system will not reveal if your selection is correct for security reasons.</li>
-              <li>Only the correct selection will ensure that your vote gets updated and counted into the results.</li>
-              <li>If you are unsure or cannot remember your pictures, please contact election officials at your polling station.</li>
-              <li>If someone is pressuring you, you can select wrong pictures to protect your true vote. If you need to update a coerced vote, select all the pictures you have seen before.</li>
+              <li>Only the correct selection will ensure that your vote gets changed and counted into the results.</li>
+              <li>If you are unsure or cannot remember your vote identifiers, please contact election officials at your polling station.</li>
+              <li>If someone is pressuring you, you can select wrong vote identifiers to protect your true vote. If you need to change a coerced vote, select all the vote identifiers you have seen before.</li>
 
             </ul>
           </div>
           <div className="filter-card">
-  <div className="filter-headline">Find your pictures</div>
+  <div className="filter-headline">Find your vote identifiers</div>
   <div className="filter-instructions">
-    Use the search box or click a letter to filter by the first letter of the word representing the item in the picture (e.g., A for Apple, B for Baby).
+    Use the search box or click a letter to filter by the first letter of a vote identifier (e.g., A for Apples, B for Baby).
   </div>
   <div className="filter-controls">
     <div className="search-wrapper">
@@ -248,10 +248,10 @@ This step verifies your identity, ensuring that only you can update your vote by
         id="word-search"
         type="text"
         className="word-filter-input"
-        placeholder="Search for your word..."
+        placeholder="Search for your vote identifier..."
         value={search}
         onChange={e => setSearch(e.target.value)}
-        aria-label="Search for your word"
+        aria-label="Search for your vote identifier"
       />
     </div>
     <div className="letter-buttons">
@@ -295,7 +295,7 @@ This step verifies your identity, ensuring that only you can update your vote by
             </div>
             
             <div className="page-counter-badge">
-              Showing {page * PAGE_SIZE + 1}-{Math.min((page + 1) * PAGE_SIZE, filteredItems.length)} of {filteredItems.length} pictures
+              Showing {page * PAGE_SIZE + 1}-{Math.min((page + 1) * PAGE_SIZE, filteredItems.length)} of {filteredItems.length} vote identifiers
             </div>
           </div>
 
@@ -304,7 +304,7 @@ This step verifies your identity, ensuring that only you can update your vote by
             <div className="pictures-scroll-container">
             <div className="visual-select-grid-pictures">
               {filteredItems.length === 0 ? (
-                <p className="no-pictures-message">No pictures found. Try adjusting your search.</p>
+                <p className="no-pictures-message">No vote identifiers found. Try adjusting your search.</p>
               ) : (
                 <>
                   {pagedItems.map((imgSrc, idx) => {
@@ -365,10 +365,10 @@ This step verifies your identity, ensuring that only you can update your vote by
           <div className="modal-backdrop-picture">
             <div className="modal-picture">
              <p style={{fontSize: "18px", fontWeight: "bold"}}>
-                Please review your selected picture(s) below
+                Please review your selected vote identifier(s) below
               </p>
                <p style={{fontSize: "16px", marginTop: "0px", marginBottom: "16px"}}>
-                Once confirmed, you will not receive feedback on whether your selection is correct. <br></br>If your selection is incorrect, your vote will <strong>NOT be updated</strong>.
+                Once confirmed, you will not receive feedback on whether your selection is correct. <br></br>If your selection is incorrect, your vote will <strong>not be changed</strong>.
               </p>
               <div className="selected-pictures-preview-picture">
                 {selected.map(imgSrc => {

@@ -274,13 +274,20 @@ section.card:hover {
   padding: 0 !important;
   border: none !important;
   text-align: left;
+  overflow: hidden;
+  border-radius: 12px;
+  width: 100%;
+  margin: 0 0 14px 0 !important;
 }
 
 .overview-image {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 12px;
   display: block;
-  margin-bottom: 10px;
+  margin-bottom: 0;
+  transform: none;
+  margin-left: 0!important;
+  margin-right: 0!important;
 }
 
 /* Hide mobile steps on desktop */
@@ -513,6 +520,12 @@ section.card:hover {
   .button.welcome-button:hover {
     background-color: #ffe066;
     color: #111;
+  }
+
+  .overview-image-container {
+    width: 100%;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
   }
 }
 
