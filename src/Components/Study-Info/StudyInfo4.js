@@ -4,6 +4,7 @@ import "./study-info.css";
 
 const StudyInfo4 = () => {
   const [userID, setUserID] = useState(null);
+  const [showCodeUnavailableMessage, setShowCodeUnavailableMessage] = useState(false);
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -28,7 +29,23 @@ const StudyInfo4 = () => {
   useEffect(() => {
     const fetchUserID = async () => {
       const id = await getUserID();
-      setUserID(id);
+
+      if (id) {
+        setUserID(id);
+        sessionStorage.setItem("participantCode", id);
+        localStorage.setItem("participantCode", id);
+        return;
+      }
+
+      const cachedId =
+        sessionStorage.getItem("participantCode") ||
+        localStorage.getItem("participantCode");
+
+      if (cachedId) {
+        setUserID(cachedId);
+      } else {
+        setShowCodeUnavailableMessage(true);
+      }
     };
     fetchUserID();
   }, []);
@@ -113,12 +130,18 @@ const StudyInfo4 = () => {
           )}
         </div>
 
+        {showCodeUnavailableMessage && (
+          <p className="medium-body-text-info" style={{ marginTop: "1rem" }}>
+            We could not retrieve your number. Please proceed to the survey without it.
+          </p>
+        )}
+
          <button
           className="study-button"
           style={{ marginTop: "2rem" }}
                onClick={() => setShowConfirmModal(true)}
         >
-          Go to next platform
+          Go to survey
         </button>
 
         {showConfirmModal && (
@@ -126,7 +149,7 @@ const StudyInfo4 = () => {
             <div className="study-modal study-info-confirm-modal">
               <h2>Important</h2>
               <p>
-                Once you proceed to the next platform, you may not be able to return to retrieve your number. Please make sure you have copied it before continuing.
+                Once you proceed to the survey, you may not be able to return to retrieve your number. Please make sure you have copied it before continuing.
               </p>
               <div className="study-modal-actions">
                 <button

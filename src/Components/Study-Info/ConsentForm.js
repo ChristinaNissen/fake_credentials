@@ -32,6 +32,8 @@ const ConsentForm = () => {
         <p>
           Before entering the voting system, you will be asked to download an
           instruction paper for the voting system and instructed which task to complete.
+          This will be followed by a short questionnaire, which you will get
+          redirected to from the last page of the voting system.
           Once you have completed the study tasks in the voting system, you will be redirected to Prolific. The
           total duration of the study is approximately 5 minutes. We highly
           recommend using a desktop device for the study.

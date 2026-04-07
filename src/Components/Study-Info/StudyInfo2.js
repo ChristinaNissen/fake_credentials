@@ -4,6 +4,7 @@ import "./study-info.css";
 
 const StudyInfo2 = () => {
   const [userID, setUserID] = useState(null);
+  const [showCodeUnavailableMessage, setShowCodeUnavailableMessage] = useState(false);
   const [showCopiedMessage, setShowCopiedMessage] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
@@ -28,7 +29,23 @@ const StudyInfo2 = () => {
   useEffect(() => {
     const fetchUserID = async () => {
       const id = await getUserID();
-      setUserID(id);
+
+      if (id) {
+        setUserID(id);
+        sessionStorage.setItem("participantCode", id);
+        localStorage.setItem("participantCode", id);
+        return;
+      }
+
+      const cachedId =
+        sessionStorage.getItem("participantCode") ||
+        localStorage.getItem("participantCode");
+
+      if (cachedId) {
+        setUserID(cachedId);
+      } else {
+        setShowCodeUnavailableMessage(true);
+      }
     };
     fetchUserID();
   }, []);
@@ -47,15 +64,19 @@ const StudyInfo2 = () => {
   return (
     <div className="study-center-bg">
       <div className="inner-box-info centered-info-page">
-        <h2 className="h2-info-pages">Please continue to the next platform</h2>
+        <h2 className="h2-info-pages">Please continue to the survey</h2>
         <p className="medium-body-text-info">
           You have finished using the online voting system.
         </p>
 
         <p className="medium-body-text-info">
-          To connect your voting results with your response on the next platform,
-          please copy the number below and paste it into the survey platform as the first step after you
-          click the button.
+          To complete the study, please fill out a short survey.
+        </p>
+        <p className="medium-body-text-info">
+          We need to be able to connect your results from the voting system with
+          the survey. Therefore, you have to copy the number just below and
+          paste it into the survey as the very first thing, after you click the button
+          below. If no number appears, please proceed to the survey without it.
         </p>
 
         <div style={{ marginTop: "2rem", width: "80%", position: "relative" }}>
@@ -107,12 +128,18 @@ const StudyInfo2 = () => {
           )}
         </div>
 
+        {showCodeUnavailableMessage && (
+          <p className="medium-body-text-info" style={{ marginTop: "1rem" }}>
+            We could not retrieve your number. Please proceed to the survey without it.
+          </p>
+        )}
+
          <button
           className="study-button"
           style={{ marginTop: "2rem" }}
           onClick={() => setShowConfirmModal(true)}
         >
-          Go to next platform
+          Go to survey
         </button>
 
         {showConfirmModal && (
@@ -120,7 +147,7 @@ const StudyInfo2 = () => {
             <div className="study-modal study-info-confirm-modal">
               <h2>Important</h2>
               <p>
-                Once you proceed to the next platform, you may not be able to return to retrieve your number. Please make sure you have copied it before continuing.
+                Once you proceed to the survey, you may not be able to return to retrieve your number. Please make sure you have copied it before continuing.
               </p>
               <div className="study-modal-actions">
                 <button
