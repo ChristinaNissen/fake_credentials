@@ -31,6 +31,10 @@
   gap: 16px;
 }
 
+.ballot-row-hidden {
+  display: none !important;
+}
+
 .ballot-row-border {
   border-bottom: 1px solid #e0e0e0;
 }

@@ -9,13 +9,18 @@ import Logo from "../Assets/logo.jpg";
 const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
   const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [loginDropdownOpen, setLoginDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const loginDropdownRef = useRef(null);
 
   useEffect(() => {
-    // Close dropdown when clicking outside the profile area
+    // Close dropdowns when clicking outside the profile or login areas
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setDropdownOpen(false);
+      }
+      if (loginDropdownRef.current && !loginDropdownRef.current.contains(e.target)) {
+        setLoginDropdownOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -49,6 +54,28 @@ const Navbar = ({ isLoggedIn, setIsLoggedIn }) => {
           <MdHome className="navbar-icon" size={20} />
           <span className="navbar-text">Home</span>
         </Link>
+        {!isLoggedIn && (
+          <div className="navbar-profile" ref={loginDropdownRef}>
+            <FaUserCircle
+              className="navbar-icon"
+              size={24}
+              onClick={() => setLoginDropdownOpen((prev) => !prev)}
+            />
+            {loginDropdownOpen && (
+              <div className="profile-dropdown">
+                <button
+                  onClick={() => {
+                    navigate("/login");
+                    setLoginDropdownOpen(false);
+                  }}
+                  className="dropdown-item"
+                >
+                  Login
+                </button>
+              </div>
+            )}
+          </div>
+        )}
         {isLoggedIn && (
           <div className="navbar-profile" ref={dropdownRef}>
             <FaUserCircle

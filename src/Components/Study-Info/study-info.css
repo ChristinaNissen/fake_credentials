@@ -199,6 +199,69 @@
   margin: 0.2rem 0 0.2rem 0;
 }
 
+.study-task-box {
+  background: #f3f8ff;
+  border-left: 4px solid #1976d2;
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  margin: 0.4rem 0 0.8rem;
+}
+
+.study-task-heading {
+  font-weight: 700;
+  color: #0d47a1;
+  margin: 0 0 0.6rem 0;
+}
+
+.study-task-list {
+  margin: 0;
+  padding-left: 1.4rem;
+}
+
+.study-task-list li {
+  margin-bottom: 0.45rem;
+}
+
+.study-task-list li:last-child {
+  margin-bottom: 0;
+}
+
+.task-check-fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-inline-size: 0;
+}
+
+.task-check-heading {
+  margin-bottom: 0.7rem;
+}
+
+.task-check-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+  color: #0f172a;
+}
+
+.task-check-option input[type="radio"] {
+  margin: 0.2rem 0 0;
+  transform: scale(1.15);
+  accent-color: #1976d2;
+  flex-shrink: 0;
+}
+
+.task-check-option-hidden {
+  display: none !important;
+}
+
+.task-check-message {
+  color: #b42318;
+  font-weight: 600;
+  margin-top: 0.35rem;
+}
+
 @media (max-width: 600px) {
   .study-center-bg {
     padding: 16px 0;

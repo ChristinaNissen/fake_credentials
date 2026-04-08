@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Footer from "./Footer";
 import "./Welcome.css";
-import votingIllustration from "../Assets/Banner.png";
+import votingIllustration from "../Assets/chair.jpg";
 import overviewImg from "../Assets/skærm3.png";
 
 const infoData = [
@@ -54,6 +54,22 @@ const Welcome = () => {
 						<h2 className="before-vote-heading">How to vote online</h2>
 					<div className="info-item overview-image-container">
 						<img src={overviewImg} alt="Voting process overview" className="overview-image" />
+					</div>
+					<div className="coercion-video-block">
+						<h3 className="coercion-video-title">How to avoid coercion</h3>
+						<div className="coercion-video-frame">
+							<iframe
+								src="https://www.youtube.com/embed/MPRUy6hXBMk"
+								title="Instruction video on avoiding coercion"
+								loading="lazy"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowFullScreen
+							/>
+						</div>
+						<p className="coercion-video-help">
+							If the video does not load, open it directly on
+							<a href="https://www.youtube.com/watch?v=MPRUy6hXBMk" target="_blank" rel="noreferrer"> YouTube</a>.
+						</p>
 					</div>
 					<ul className="voting-steps-mobile">
 						<li>
