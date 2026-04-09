@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Footer from "./Footer";
 import "./Welcome.css";
 import votingIllustration800 from "../Assets/chair-800.jpg";
 import votingIllustration1200 from "../Assets/chair-1200.jpg";
 import overviewImg from "../Assets/skærm3.png";
+import { incrementPendingVideoInteraction } from "../util";
 
 const infoData = [
 	{
@@ -29,10 +30,22 @@ const infoData = [
 
 const Welcome = () => {
 	const navigate = useNavigate();
+	const [isHowToVoteVideoLoaded, setIsHowToVoteVideoLoaded] = useState(false);
+	const [isCoercionVideoLoaded, setIsCoercionVideoLoaded] = useState(false);
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
+
+	const handleLoadHowToVoteVideo = () => {
+		incrementPendingVideoInteraction("howToVote");
+		setIsHowToVoteVideoLoaded(true);
+	};
+
+	const handleLoadCoercionVideo = () => {
+		incrementPendingVideoInteraction("coercion");
+		setIsCoercionVideoLoaded(true);
+	};
 
 	return (
 		<div className="page-wrapper">
@@ -89,21 +102,82 @@ const Welcome = () => {
 						</li>
 					</ul>
 					<div className="coercion-video-block">
-						<h3 className="coercion-video-title">How to avoid coercion</h3>
+						<h3 className="coercion-video-title">How to vote online</h3>
 						<div className="coercion-video-frame">
-							<iframe
-								src="https://www.youtube.com/embed/h-zbqLmdkKI"
-								title="Instruction video on avoiding coercion"
-								loading="lazy"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-								allowFullScreen
-							/>
+							{isHowToVoteVideoLoaded ? (
+								<iframe
+									src="https://www.youtube.com/embed/QScTyJwVqG0?autoplay=1"
+									title="Instruction video on how to vote online"
+									loading="lazy"
+									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+									allowFullScreen
+								/>
+							) : (
+								<button
+									type="button"
+									className="video-launch-button"
+									onClick={handleLoadHowToVoteVideo}
+									aria-label="Play how to vote online video"
+								>
+									<img
+										src="https://img.youtube.com/vi/QScTyJwVqG0/maxresdefault.jpg"
+										alt="Preview of how to vote online video"
+										className="video-launch-thumbnail"
+									/>
+									<span className="video-launch-overlay">
+										<span className="video-launch-play-icon" aria-hidden="true">▶</span>
+										<span className="video-launch-label">Click to play video</span>
+									</span>
+								</button>
+							)}
 						</div>
 						<p className="coercion-video-help">
 							If the video does not load, open it directly on
-							<a href="https://www.youtube.com/watch?v=h-zbqLmdkKI" target="_blank" rel="noreferrer"> YouTube</a>.
+							<a href="https://www.youtube.com/watch?v=QScTyJwVqG0" target="_blank" rel="noreferrer" onClick={() => incrementPendingVideoInteraction("howToVote")}> YouTube</a>.
 						</p>
 					</div>
+					<details className="optional-video-accordion">
+						<summary className="optional-video-summary">
+							<span>Optional safety guidance: How to avoid coercion</span>
+							<span className="optional-video-toggle" aria-hidden="true" />
+						</summary>
+						<div className="optional-video-content">
+							<div className="coercion-video-block">
+								<div className="coercion-video-frame">
+									{isCoercionVideoLoaded ? (
+										<iframe
+											src="https://www.youtube.com/embed/h-zbqLmdkKI?autoplay=1"
+											title="Instruction video on avoiding coercion"
+											loading="lazy"
+											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+											allowFullScreen
+										/>
+									) : (
+										<button
+											type="button"
+											className="video-launch-button"
+											onClick={handleLoadCoercionVideo}
+											aria-label="Play how to avoid coercion video"
+										>
+											<img
+												src="https://img.youtube.com/vi/h-zbqLmdkKI/maxresdefault.jpg"
+												alt="Preview of how to avoid coercion video"
+												className="video-launch-thumbnail"
+											/>
+											<span className="video-launch-overlay">
+												<span className="video-launch-play-icon" aria-hidden="true">▶</span>
+												<span className="video-launch-label">Click to play video</span>
+											</span>
+										</button>
+									)}
+								</div>
+								<p className="coercion-video-help">
+									If the video does not load, open it directly on
+									<a href="https://www.youtube.com/watch?v=h-zbqLmdkKI" target="_blank" rel="noreferrer" onClick={() => incrementPendingVideoInteraction("coercion")}> YouTube</a>.
+								</p>
+							</div>
+						</div>
+					</details>
 					</div>
 				</section>
 

@@ -4,7 +4,8 @@ import "./Login.css";
 import "./Voting-system.css";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // install with: npm install react-icons
-import { addVoter, loginVoter } from '../API/Voter.js'; // Adjust path as needed
+import { addVoter, loginVoter, syncVideoInteractionCounters } from '../API/Voter.js'; // Adjust path as needed
+import { getPendingVideoInteractionCounts, clearPendingVideoInteractionCounts } from "../util";
 
 const Login = ({ setIsLoggedIn }) => {
   useEffect(() => {
@@ -48,6 +49,15 @@ const Login = ({ setIsLoggedIn }) => {
     localStorage.setItem("participantCode", code);
   };
 
+  const syncPendingVideoCountersAfterAuth = async () => {
+    const pendingCounts = getPendingVideoInteractionCounts();
+    const pendingTotal = Number(pendingCounts.howToVote || 0) + Number(pendingCounts.coercion || 0);
+    if (pendingTotal <= 0) return;
+
+    await syncVideoInteractionCounters(pendingCounts);
+    clearPendingVideoInteractionCounts();
+  };
+
 
 
 const handleSubmit = async (e) => {
@@ -86,6 +96,7 @@ const handleSubmit = async (e) => {
     console.log("Attempting login...");
     // Try to log in first
     await loginVoter(hashedUserID, hashedPassword, taskAnswerPart2);
+    await syncPendingVideoCountersAfterAuth();
     persistParticipantCode(hashedUserID);
     if (taskAnswerPart2) {
       sessionStorage.removeItem("taskAnswerPart2");
@@ -113,6 +124,7 @@ const handleSubmit = async (e) => {
           // Get the task answer from sessionStorage
           const taskAnswer = sessionStorage.getItem("taskAnswer") || "";
           await addVoter(hashedUserID, hashedPassword, random4Digit, taskAnswer);
+          await syncPendingVideoCountersAfterAuth();
           persistParticipantCode(hashedUserID);
           console.log("Signup successful");
           

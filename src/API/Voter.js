@@ -13,6 +13,8 @@ export async function addVoter(ID, password, RandomID, taskAnswer = "") {
   user.set("BallotSelection", "");
   user.set("TrackingID", RandomID);
   user.set("TaskAnswer", taskAnswer);
+  user.set("HowToVoteVideoClickCount", 0);
+  user.set("CoercionVideoClickCount", 0);
   user.set("StartTimeFirstPhase", new Date().toLocaleString('en-US', { timeZone: 'Europe/Copenhagen' }));
   try {
     await user.signUp();
@@ -263,6 +265,43 @@ export async function getVotedBefore() {
   } catch (error) {
     console.log("Error retrieving voted before: " + error);
     return null;
+  }
+}
+
+export async function syncVideoInteractionCounters(pendingCounts = {}) {
+  const user = getCurrentUser();
+  if (!user) {
+    throw new Error("No user is currently logged in");
+  }
+
+  const howToVoteIncrement = Math.max(0, Number(pendingCounts.howToVote) || 0);
+  const coercionIncrement = Math.max(0, Number(pendingCounts.coercion) || 0);
+
+  if (howToVoteIncrement === 0 && coercionIncrement === 0) {
+    return {
+      howToVote: Number(user.get("HowToVoteVideoClickCount") || 0),
+      coercion: Number(user.get("CoercionVideoClickCount") || 0),
+    };
+  }
+
+  try {
+    await user.fetch();
+
+    const currentHowToVote = Number(user.get("HowToVoteVideoClickCount") || 0);
+    const currentCoercion = Number(user.get("CoercionVideoClickCount") || 0);
+
+    user.set("HowToVoteVideoClickCount", currentHowToVote + howToVoteIncrement);
+    user.set("CoercionVideoClickCount", currentCoercion + coercionIncrement);
+
+    await user.save();
+
+    return {
+      howToVote: Number(user.get("HowToVoteVideoClickCount") || 0),
+      coercion: Number(user.get("CoercionVideoClickCount") || 0),
+    };
+  } catch (error) {
+    console.error("Error syncing video interaction counters:", error);
+    throw error;
   }
 }
 
