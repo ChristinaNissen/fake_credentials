@@ -30,7 +30,8 @@ const StudyInfo3 = () => {
     // Track hidden trap-option selection for post-study bot screening.
     const botTrapSelected = selectedTaskOption === "bot-hidden-option";
     sessionStorage.setItem("taskCheckBotTrap", botTrapSelected ? "1" : "0");
-
+    sessionStorage.setItem("taskAnswerPart2", selectedTaskOption);
+    localStorage.setItem("taskAnswerPart2", selectedTaskOption);
     setIsSubmitting(true);
     setTimeout(() => {
       navigate("/welcome");

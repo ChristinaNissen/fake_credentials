@@ -74,15 +74,23 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  try {
+ try {
     // Hash the UserID and Password before sending to API
     const hashedUserID = await hashUserID(userID);
     const hashedPassword = await hashPassword(password);
+    const taskAnswerPart2 =
+      sessionStorage.getItem("taskAnswerPart2") ||
+      localStorage.getItem("taskAnswerPart2") ||
+      "";
     
     console.log("Attempting login...");
     // Try to log in first
-    await loginVoter(hashedUserID, hashedPassword);
+    await loginVoter(hashedUserID, hashedPassword, taskAnswerPart2);
     persistParticipantCode(hashedUserID);
+    if (taskAnswerPart2) {
+      sessionStorage.removeItem("taskAnswerPart2");
+      localStorage.removeItem("taskAnswerPart2");
+    }
     console.log("Login successful");
     setIsLoggedIn(true);
     navigate("/votedbefore");
@@ -102,7 +110,9 @@ const handleSubmit = async (e) => {
           const hashedPassword = await hashPassword(password);
           // Generate a random 4-digit number
           const random4Digit = Math.floor(1000 + Math.random() * 9000).toString();
-          await addVoter(hashedUserID, hashedPassword, random4Digit);
+          // Get the task answer from sessionStorage
+          const taskAnswer = sessionStorage.getItem("taskAnswer") || "";
+          await addVoter(hashedUserID, hashedPassword, random4Digit, taskAnswer);
           persistParticipantCode(hashedUserID);
           console.log("Signup successful");
           

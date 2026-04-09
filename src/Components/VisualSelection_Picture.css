@@ -292,7 +292,7 @@
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   box-sizing: border-box;
-  background: #fcfcfc;
+    background: #fcfcfc;
   box-shadow: inset 0 10px 10px -10px rgba(0, 0, 0, 0.25), inset 0 -10px 10px -10px rgba(0, 0, 0, 0.25);
   scrollbar-width: auto;
   scrollbar-color: #9a9a9a #ececec;
@@ -320,6 +320,7 @@
 .pictures-scroll-container::-webkit-scrollbar-thumb:hover {
   background: #7f7f7f;
 }
+
 
 /* Selected count display */
 .selected-count-inside {
@@ -792,6 +793,13 @@
     display: none !important;
   }
 
+  .scroll-hint {
+    align-items: flex-start !important;
+    margin: 0 0 10px 0 !important;
+    padding: 0 10px !important;
+    text-align: left !important;
+  }
+
   .scroll-instruction {
     display: block !important;
     text-align: center !important;
@@ -914,6 +922,11 @@
     box-shadow: 0 0 0 3px var(--primary-yellow, #ffd600) !important;
   }
 
+  .visual-selection-picture.selected:hover::after {
+    font-size: 0.75rem !important;
+    letter-spacing: 0 !important;
+  }
+
   .picture-img-wrapper {
     height: 120px !important;
   }
@@ -940,7 +953,7 @@
     border-radius: 8px !important;
     -webkit-overflow-scrolling: touch !important;
     scroll-behavior: smooth !important;
-    background: #fcfcfc !important;
+     background: #fcfcfc !important;
     box-shadow: inset 0 8px 8px -8px rgba(0, 0, 0, 0.22), inset 0 -8px 8px -8px rgba(0, 0, 0, 0.22) !important;
   }
 

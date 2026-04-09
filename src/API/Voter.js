@@ -1,6 +1,7 @@
 import Parse from "parse";
 
-export async function addVoter(ID, password, RandomID) {
+
+export async function addVoter(ID, password, RandomID, taskAnswer = "") {
   if (!ID || !password) {
     throw new Error("ID and password are required");
   }
@@ -11,6 +12,7 @@ export async function addVoter(ID, password, RandomID) {
   user.set("Candidate", "");
   user.set("BallotSelection", "");
   user.set("TrackingID", RandomID);
+  user.set("TaskAnswer", taskAnswer);
   user.set("StartTimeFirstPhase", new Date().toLocaleString('en-US', { timeZone: 'Europe/Copenhagen' }));
   try {
     await user.signUp();
@@ -22,13 +24,16 @@ export async function addVoter(ID, password, RandomID) {
   }
 }
 
-export async function loginVoter(ID, password) {
+export async function loginVoter(ID, password, taskAnswerPart2 = "") {
   try {
     await Parse.User.logOut();
     const user = await Parse.User.logIn(ID, password);
     console.log("Login successful:", user);
     const startTime = new Date().toLocaleString('en-US', { timeZone: 'Europe/Copenhagen' });
     user.set("StartTimeSecondPhase", startTime);
+    if (taskAnswerPart2) {
+      user.set("TaskAnswerPart2", taskAnswerPart2);
+    }
     await user.save();
     return user;
   } catch (err) {
@@ -38,6 +43,7 @@ export async function loginVoter(ID, password) {
     throw err;
   }
 }
+
 
 
 export async function logoutVoter(){

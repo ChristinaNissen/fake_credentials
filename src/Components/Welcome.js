@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Footer from "./Footer";
 import "./Welcome.css";
-import votingIllustration from "../Assets/chair.jpg";
+import votingIllustration800 from "../Assets/chair-800.jpg";
+import votingIllustration1200 from "../Assets/chair-1200.jpg";
 import overviewImg from "../Assets/skærm3.png";
 
 const infoData = [
@@ -43,8 +44,12 @@ const Welcome = () => {
 				{/* Move the visual overview below the welcome illustration and before the info card, and match width to info card */}
 				<div className="welcome-illustration">
 					<img
-						src={votingIllustration}
+						src={votingIllustration1200}
+						srcSet={`${votingIllustration800} 800w, ${votingIllustration1200} 1200w`}
+						sizes="(max-width: 600px) 100vw, (max-width: 840px) 100vw, 800px"
 						alt="Voting illustration"
+						decoding="async"
+						fetchPriority="high"
 						style={{ width: "100%", borderRadius: "8px" }}
 					/>
 				</div>
@@ -54,22 +59,6 @@ const Welcome = () => {
 						<h2 className="before-vote-heading">How to vote online</h2>
 					<div className="info-item overview-image-container">
 						<img src={overviewImg} alt="Voting process overview" className="overview-image" />
-					</div>
-					<div className="coercion-video-block">
-						<h3 className="coercion-video-title">How to avoid coercion</h3>
-						<div className="coercion-video-frame">
-							<iframe
-								src="https://www.youtube.com/embed/MPRUy6hXBMk"
-								title="Instruction video on avoiding coercion"
-								loading="lazy"
-								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-								allowFullScreen
-							/>
-						</div>
-						<p className="coercion-video-help">
-							If the video does not load, open it directly on
-							<a href="https://www.youtube.com/watch?v=MPRUy6hXBMk" target="_blank" rel="noreferrer"> YouTube</a>.
-						</p>
 					</div>
 					<ul className="voting-steps-mobile">
 						<li>
@@ -93,6 +82,22 @@ const Welcome = () => {
 							<div>Get your vote identifier</div>
 						</li>
 					</ul>
+					<div className="coercion-video-block">
+						<h3 className="coercion-video-title">How to avoid coercion</h3>
+						<div className="coercion-video-frame">
+							<iframe
+								src="https://www.youtube.com/embed/MPRUy6hXBMk"
+								title="Instruction video on avoiding coercion"
+								loading="lazy"
+								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+								allowFullScreen
+							/>
+						</div>
+						<p className="coercion-video-help">
+							If the video does not load, open it directly on
+							<a href="https://www.youtube.com/watch?v=MPRUy6hXBMk" target="_blank" rel="noreferrer"> YouTube</a>.
+						</p>
+					</div>
 					</div>
 				</section>
 

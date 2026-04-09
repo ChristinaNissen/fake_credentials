@@ -6,10 +6,12 @@
 
 .welcome-illustration img {
   width: 100%;
-  max-width: 100%;
+  height: auto;
+  aspect-ratio: 8034 / 5356;
   border-radius: 8px;
   display: block;
   margin: 0;
+  object-fit: cover;
 }
 
 .accordion {
@@ -410,9 +412,16 @@ section.card:hover {
     content: '';
   }
   
+  .welcome-illustration {
+    max-width: 92%;
+    margin: 16px auto;
+  }
+  
   .welcome-illustration img {
-    max-width: 90%;
-    margin: 16px auto 16px auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 8034 / 5356;
+    margin: 0;
     border-radius: 6px;
   }
   
@@ -478,6 +487,10 @@ section.card:hover {
 
   .coercion-video-title {
     font-size: 1rem;
+  }
+
+  .coercion-video-block {
+    margin-top: 26px;
   }
 
   .coercion-video-help {

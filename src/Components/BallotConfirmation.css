@@ -316,8 +316,8 @@ background-color: rgba(255, 255, 204, 0.8);
 
   @media (max-width: 600px) {
   .confirmation-card-label {
-    font-size: 15.52px !important;
-    color: #000;
+   font-size: 22.4px !important;    
+   color: #000;
   }
 
   .confirmation-candidate{
