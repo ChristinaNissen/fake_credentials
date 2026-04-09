@@ -57,6 +57,12 @@ const Welcome = () => {
 					<section className="card" style={{ maxWidth: "800px", marginBottom: "36px" }}>
 					<div className="info-list">
 						<h2 className="before-vote-heading">How to vote online</h2>
+						<p className="welcome-process-intro">
+							<span className="welcome-process-intro-lead">
+								This voting system is designed to allow voters to update their vote during the election.
+							</span>
+							The voting process consists of several steps. First, you will log in to the system and answer whether you have already voted in the election. Depending on your answer, you may be asked to identify previous vote identifiers for ballots you have already cast. You will then proceed to cast your vote. After your vote has been submitted, you will receive a confirmation together with a vote identifier for the ballot you have just cast. It is important to remember this vote identifier, as you will need it if you want to update your vote later in the election.
+						</p>
 					<div className="info-item overview-image-container">
 						<img src={overviewImg} alt="Voting process overview" className="overview-image" />
 					</div>

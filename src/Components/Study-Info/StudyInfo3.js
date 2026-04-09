@@ -141,8 +141,8 @@ const StudyInfo3 = () => {
                     <input
                       type="radio"
                       name="task-check"
-                      value="vote-for-sofia-lee"
-                      checked={selectedTaskOption === "vote-for-sofia-lee"}
+                      value="update-vote-for-sofia-lee"
+                      checked={selectedTaskOption === "update-vote-for-sofia-lee"}
                       onChange={handleTaskOptionChange}
                     />
                     Update your vote for Sofia Lee.
