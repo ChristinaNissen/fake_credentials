@@ -86,7 +86,7 @@ const Welcome = () => {
 						<h3 className="coercion-video-title">How to avoid coercion</h3>
 						<div className="coercion-video-frame">
 							<iframe
-								src="https://www.youtube.com/embed/MPRUy6hXBMk"
+								src="https://www.youtube.com/embed/h-zbqLmdkKI"
 								title="Instruction video on avoiding coercion"
 								loading="lazy"
 								allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -95,7 +95,7 @@ const Welcome = () => {
 						</div>
 						<p className="coercion-video-help">
 							If the video does not load, open it directly on
-							<a href="https://www.youtube.com/watch?v=MPRUy6hXBMk" target="_blank" rel="noreferrer"> YouTube</a>.
+							<a href="https://www.youtube.com/watch?v=h-zbqLmdkKI" target="_blank" rel="noreferrer"> YouTube</a>.
 						</p>
 					</div>
 					</div>
