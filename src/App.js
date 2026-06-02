@@ -4,13 +4,9 @@ import ConsentForm from './Components/Study-Info/ConsentForm';
 import ConsentForm2 from './Components/Study-Info/ConsenForm2';
 import StudyInfo1 from './Components/Study-Info/StudyInfo1';
 import Welcome from './Components/Welcome';
-import Login from './Components/Login';
-import VotedBefore from './Components/VotedBefore';
+import Login2 from './Components/Login2';
 import Voting from './Components/Voting';
-import Voting2 from './Components/Voting2';
-import BallotConfirmationPicture from './Components/BallotConfirmation_Picture';
-import BallotConfirmationPicture2 from './Components/BallotConfirmation_Picture2';
-import VisualSelectionPicture from './Components/VisualSelection_Picture';
+import Confirmation from './Components/Confirmation';
 import StudyInfo2 from './Components/Study-Info/StudyInfo2';
 import StudyInfo3 from './Components/Study-Info/StudyInfo3';
 import StudyInfo4 from './Components/Study-Info/StudyInfo4';
@@ -18,7 +14,6 @@ import Navbar from './Components/Navbar';
 import './App.css';
 import VoteContext from "./Contexts/VoteContext";
 import NoPrivateMode from './Components/NoPrivateMode';
-import PrivateMode from './Components/PrivateModeWarning'; 
 import Help from './Components/Help';
 import Parse from "parse";
 
@@ -78,20 +73,13 @@ function App() {
           <Route path="/studyinfo2" element={<StudyInfo2 />} />
           <Route path="/studyinfo3" element={<StudyInfo3 />} />
           <Route path="/studyinfo4" element={<StudyInfo4 />} />
-          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-          <Route path="/votedbefore" element={<VotedBefore />} />
+          <Route path="/login" element={<Login2 setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/voting" element={<Voting />} />
-          <Route path="/voting2" element={<Voting2  />} />
            <Route path="/confirmation" element={
-            hasReachedStudyInfo2 ? <Navigate to="/studyinfo2" replace /> : <BallotConfirmationPicture setIsLoggedIn={setIsLoggedIn} />
+            hasReachedStudyInfo2 ? <Navigate to="/studyinfo2" replace /> : <Confirmation setIsLoggedIn={setIsLoggedIn} />
           } />
-          <Route path="/confirmation2" element={
-            hasReachedStudyInfo2 ? <Navigate to="/studyinfo2" replace /> : <BallotConfirmationPicture2 setIsLoggedIn={setIsLoggedIn} />
-          } />
-          <Route path="/selection" element={<VisualSelectionPicture />} />
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/private-mode" element={<NoPrivateMode/>} />
-          <Route path="/private-mode2" element={<PrivateMode/>} />
           <Route path="/help" element={<Help />} />
           <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Routes>

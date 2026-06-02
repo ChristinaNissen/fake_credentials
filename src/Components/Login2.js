@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import Footer from "./Footer";
 import "./Login.css";
 import "./Voting-system.css";
+import ProcessBar from "./ProcessBar";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // install with: npm install react-icons
 import { addVoter, loginVoter, syncVideoInteractionCounters } from '../API/Voter.js'; // Adjust path as needed
 import { getPendingVideoInteractionCounts, clearPendingVideoInteractionCounts } from "../util";
 
-const Login = ({ setIsLoggedIn }) => {
+const Login2 = ({ setIsLoggedIn }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -16,7 +17,6 @@ const Login = ({ setIsLoggedIn }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [userIDError, setUserIDError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [showStudyModal, setShowStudyModal] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   
@@ -136,7 +136,7 @@ const handleSubmit = async (e) => {
           
           if (currentUser) {
             setIsLoggedIn(true);
-            navigate("/votedbefore");
+            navigate("/voting");
           } else {
             console.error("No current user after signup!");
             setPasswordError("Signup succeeded but login failed. Please try logging in manually.");
@@ -162,20 +162,23 @@ const handleSubmit = async (e) => {
     }
 };
 
+  const steps = ["Login", "Voting", "Confirmation"];
+
   return (
     <div className="page-wrapper">
       <main className="welcome-main">
+        <ProcessBar steps={steps} currentStep={1} />
         <h1>Login to your account</h1>
         <div className="text-main login-text">
           Please enter your details below to access the online voting system.
         </div>
         <div className="login-card">
           <form onSubmit={handleSubmit} className="login-form">
-            <label htmlFor="userID">ProlificID</label>
+            <label htmlFor="userID">Regular password</label>
             <input
               id="userID"
               type="text"
-              placeholder ="Enter Prolific ID"
+              placeholder ="Enter regular password"
               value={userID}
               onChange={(e) => setUserID(e.target.value)}
               className="login-input"
@@ -183,7 +186,7 @@ const handleSubmit = async (e) => {
             />
             {userIDError && <div className="login-error">{userIDError}</div>}
 
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Thematic password</label>
             <div className="password-input-wrapper">
             <input
               id="password"
@@ -191,7 +194,7 @@ const handleSubmit = async (e) => {
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder = "Enter password"
+              placeholder = "Enter thematic password"
               autoComplete="current-password"
             />
             <span
@@ -218,28 +221,10 @@ const handleSubmit = async (e) => {
             </button>
           </form>
         </div>
-
-        {showStudyModal && (
-          <div className="study-modal-backdrop">
-            <div className="study-modal" onClick={(e) => e.stopPropagation()}>
-              <h2>Study Information</h2>
-              <p>
-                For this study, please use your <strong>Prolific ID</strong> as both your ID and password.<br /><br />
-                Your Prolific ID is salted and hashed before it is stored in this system. We do not store your raw Prolific ID in this database.<br /><br />
-                In a real election, this login would use secure personal credentials.
-              </p>
-              <div className="study-modal-actions">
-                <button className="study-button" onClick={() => setShowStudyModal(false)}>
-                  Got it
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </main>
       <Footer />
     </div>
   );
 };
 
-export default Login;
+export default Login2;

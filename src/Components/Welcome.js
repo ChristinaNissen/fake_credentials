@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import "./Welcome.css";
 import votingIllustration800 from "../Assets/chair-800.jpg";
 import votingIllustration1200 from "../Assets/chair-1200.jpg";
-import overviewImg from "../Assets/skærm3.png";
+import overviewImg from "../Assets/VotingProcess_Overview.png";
 import { incrementPendingVideoInteraction } from "../util";
 
 const infoData = [
@@ -71,10 +71,7 @@ const Welcome = () => {
 					<div className="info-list">
 						<h2 className="before-vote-heading">How to vote online</h2>
 						<p className="welcome-process-intro">
-							<span className="welcome-process-intro-lead">
-								This voting system is designed to allow voters to update their vote during the election.
-							</span>
-							The voting process consists of several steps. First, you will log in to the system and answer whether you have already voted in the election. Depending on your answer, you may be asked to identify previous vote identifiers for ballots you have already cast. You will then proceed to cast your vote. After your vote has been submitted, you will receive a confirmation together with a vote identifier for the ballot you have just cast. It is important to remember this vote identifier, as you will need it if you want to update your vote later in the election.
+							The voting process consists of several steps. First, you will log in to the system with the credentials, you have received. You will then proceed to cast your vote for your preferred candidate. After your vote has been submitted, you will receive a confirmation for the ballot you have just cast.
 						</p>
 					<div className="info-item overview-image-container">
 						<img src={overviewImg} alt="Voting process overview" className="overview-image" />
@@ -85,20 +82,12 @@ const Welcome = () => {
 							<div>Access the system with your credentials</div>
 						</li>
 						<li>
-						<strong>Voted Before?</strong>
-							<div>Answer the question to proceed</div>
-						</li>
-						<li>
-						<strong>Identify Previous Votes</strong>
-							<div>If yes, select the vote identifier(s) shown to you after casting your previous vote(s)</div>
-						</li>
-						<li>
 						<strong>Voting</strong>
 							<div>Choose your candidate and cast your ballot</div>
 						</li>
 						<li>
 						<strong>Confirmation</strong>
-							<div>Get your vote identifier</div>
+							<div>Confirmation of your vote</div>
 						</li>
 					</ul>
 					<div className="coercion-video-block">
@@ -197,7 +186,7 @@ const Welcome = () => {
 				<div className="login-button-container">
 					<button 
 						className="button welcome-button"
-						onClick={() => navigate("/private-mode")}
+						onClick={() => navigate("/login")}
 					>
 						Login
 					</button>

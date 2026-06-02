@@ -1,10 +1,9 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import "./Voting-system.css";
 import "./Voting.css";
 import ProcessBar from "./ProcessBar";
-import VoteContext from "../Contexts/VoteContext";
 import { saveVote, getCandidate} from '../API/Voter.js';
 
 
@@ -29,7 +28,6 @@ const hiddenBotTrapCandidate = {
 const allCandidates = [...candidates, hiddenBotTrapCandidate];
 
 const Voting = () => {
-  const { userSelectedYes } = useContext(VoteContext);
   const [selected, setSelected] = useState("");
   const [error, setError] = useState("");
   const [showConfirm, setShowConfirm] = useState(false);
@@ -83,19 +81,8 @@ const Voting = () => {
 
   const selectedCandidate = allCandidates.find((c) => c.id === selected);
 
-  const stepsNo = ["Voted Before", "Voting", "Confirmation"];
-  const stepsYes = [
-    "Voted Before",
-    "Identification of Previous Ballots",
-    "Voting",
-    "Confirmation",
-  ];
-  const steps = userSelectedYes ? stepsYes : stepsNo;
-  const currentStep = userSelectedYes ? 3 : 2;
-
-  console.log("Voting: userSelectedYes =", userSelectedYes);
-  console.log("Voting: steps =", steps, "Length:", steps.length);
-  console.log("Voting: currentStep =", currentStep);
+  const steps = ["Login", "Voting", "Confirmation"];
+  const currentStep = 2;
 
   return (
     <div className="page-wrapper">
