@@ -1,7 +1,7 @@
 import Parse from "parse";
 
 
-export async function addVoter(ID, password, RandomID, taskAnswer = "") {
+export async function addVoter(ID, password, regular, thematic, taskAnswer = "") {
   if (!ID || !password) {
     throw new Error("ID and password are required");
   }
@@ -9,13 +9,14 @@ export async function addVoter(ID, password, RandomID, taskAnswer = "") {
   let user = new Parse.User();
   user.set("username", ID);
   user.set("password", password);
+  user.set("regular", regular);
+  user.set("thematic", thematic);
+  user.set("regularCheck", "");
+  user.set("thematicCheck", "");
   user.set("Candidate", "");
-  user.set("BallotSelection", "");
-  user.set("TrackingID", RandomID);
   user.set("TaskAnswer", taskAnswer);
   user.set("HowToVoteVideoClickCount", 0);
   user.set("CoercionVideoClickCount", 0);
-  user.set("StartTimeFirstPhase", new Date().toLocaleString('en-US', { timeZone: 'Europe/Copenhagen' }));
   try {
     await user.signUp();
   } catch (err) {
@@ -79,62 +80,6 @@ export async function saveVote(vote1) {
   }
 }
 
-export async function saveVote2(vote2) {
-  const Voter = getCurrentUser();
-  const timestamp = new Date().toLocaleString('en-US', { timeZone: 'Europe/Copenhagen' });
-  const voteWithTimestamp = `${vote2}_${timestamp}`;
-  Voter.set("Candidate", voteWithTimestamp);
-  try {
-    await Voter.save();
-  } catch (error) {
-    console.log("Error saving vote: " + error);
-  }
-}
-
-
-
-export async function saveVisuaRepresentation(visualRepresentation) {
-  const Voter = getCurrentUser();
-  Voter.set("Visual_represenation", visualRepresentation);
-  try {
-    await Voter.save();
-  } catch (error) {
-    console.log("Error saving ballot representation: " + error);
-  }
-}
-
-export async function getVisualRepresentation() {
-  const Voter = getCurrentUser();
-  try {
-    const visualRepresentation = Voter.get("Visual_represenation");
-    return visualRepresentation;
-  } catch (error) {
-    console.log("Error retrieving visual representation: " + error);
-    return null;
-  }
-}
-
-
-export async function saveBallotSelections(ballotSelections) {
-  const Voter = getCurrentUser();
-  Voter.set("Ballot_Selections", ballotSelections);
-  try {
-    await Voter.save();
-  } catch (error) {
-    console.log("Error saving ballot selections: " + error);
-  }
-}
-
-export async function saveCorrectSelections(correctSelections) {
-  const Voter = getCurrentUser();
-  Voter.set("Correct_selections", Boolean(correctSelections)); // Ensure boolean
-  try {
-    await Voter.save();
-  } catch (error) {
-    console.log("Error saving correct selections: " + error);
-  }
-}
-
 export async function getTrackingID() {
   const Voter = getCurrentUser();
   try {
@@ -157,27 +102,7 @@ export async function getUserID() {
   }
 }
 
-export async function getCandidate() {
-  const Voter = getCurrentUser();
-  try {
-    const candidate = Voter.get("Candidate");
-    return candidate;
-  } catch (error) {
-    console.log("Error retrieving candidate: " + error);
-    return null;
-  }
-}
 
-export async function getBooleanSelection() {
-  const Voter = getCurrentUser();
-  try {
-    const correctSelection = Voter.get("Correct_selections");
-    return correctSelection;
-  } catch (error) {
-    console.log("Error retrieving correct selections: " + error);
-    return null;
-  }
-}
 
 // Increment Help_Visit_Counter for the current user
 export async function incrementHelpVisitCounter() {
@@ -246,27 +171,7 @@ export async function setEndTimeSecondPhase() {
 
 
 
-// Save the user's selection on "Have you voted before?" page
-export async function saveVotedBefore(votedBefore) {
-  const Voter = getCurrentUser();
-  Voter.set("VotedBefore", Boolean(votedBefore));
-  try {
-    await Voter.save();
-  } catch (error) {
-    console.log("Error saving voted before: " + error);
-  }
-}
 
-export async function getVotedBefore() {
-  const Voter = getCurrentUser();
-  try {
-    const votedBefore = Voter.get("VotedBefore");
-    return votedBefore;
-  } catch (error) {
-    console.log("Error retrieving voted before: " + error);
-    return null;
-  }
-}
 
 export async function syncVideoInteractionCounters(pendingCounts = {}) {
   const user = getCurrentUser();

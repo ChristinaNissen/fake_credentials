@@ -23,8 +23,8 @@ import Parse from "parse";
 //const PARSE_JAVASCRIPT_KEY = "AXphTNbNhIt6mb9NK5xa2I5SKZ0UwxyBl3aAAH1u";
 
 Parse.initialize(
-  "iGNo4Zu6np1LHYw3EAufU4IuCjAvayYfy9cZr2As", // Application ID
-  "1ZLNefl4GWrfi7rt9KCvUT7sNJfnZIo6WnrRcC4x"  // JavaScript Key
+  "n8mNDsedLNQgBQQ00wGYASqJ3RONsEM18BfXTkBb", // Application ID
+  "MS3craonsJvGMNjx1hnWmR50scge1Izu7kd4JXj2"  // JavaScript Key
 );
 Parse.serverURL = "https://parseapi.back4app.com/";
 //Parse.serverURL = PARSE_HOST_URL;

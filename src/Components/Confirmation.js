@@ -7,7 +7,7 @@ import ProcessBar from "./ProcessBar.js";
 import { setSessionEnd, setEndTimeFirstPhase } from "../API/Voter.js";
 
 
-function BallotConfirmationPicture(setIsLoggedIn) {
+function Confirmation({ setIsLoggedIn }) {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,4 +46,4 @@ function BallotConfirmationPicture(setIsLoggedIn) {
   );
 }
 
-export default BallotConfirmationPicture;
+export default Confirmation;

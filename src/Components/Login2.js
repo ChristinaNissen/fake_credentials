@@ -5,8 +5,18 @@ import "./Voting-system.css";
 import ProcessBar from "./ProcessBar";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // install with: npm install react-icons
-import { addVoter, loginVoter, syncVideoInteractionCounters } from '../API/Voter.js'; // Adjust path as needed
+import { loginVoter, syncVideoInteractionCounters } from '../API/Voter.js'; // Adjust path as needed
 import { getPendingVideoInteractionCounts, clearPendingVideoInteractionCounts } from "../util";
+
+const VALID_COLOURS = new Set([
+  "red", "blue", "green", "yellow", "orange", "purple", "pink", "black",
+  "white", "grey", "gray", "brown", "violet", "indigo", "cyan", "magenta",
+  "turquoise", "teal", "gold", "silver", "beige", "ivory", "coral", "salmon",
+  "maroon", "navy", "olive", "lime", "aqua", "fuchsia", "crimson", "lavender",
+  "mint", "peach", "rose", "amber", "jade", "lilac", "tan", "khaki",
+]);
+
+const isColour = (value) => VALID_COLOURS.has(value.trim().toLowerCase());
 
 const Login2 = ({ setIsLoggedIn }) => {
   useEffect(() => {
@@ -75,6 +85,9 @@ const handleSubmit = async (e) => {
   if (!password.trim()) {
     setPasswordError("Please enter your password");
     hasError = true;
+  } else if (!isColour(password)) {
+    setPasswordError("The entered thematic password is not a colour. Please enter a valid colour (e.g. blue, red, green).");
+    hasError = true;
   } else {
     setPasswordError("");
   }
@@ -108,58 +121,12 @@ const handleSubmit = async (e) => {
   } catch (error) {
     setIsLoading(false);
     console.log("Login error:", error);
-      // If login fails, try to sign up
-      if (
-        error.message.includes("Invalid username/password") ||
-        error.message.includes("user not found") ||
-        error.code === 101
-      ) {
-        try {
-          console.log("Attempting signup...");
-          // Hash the UserID and Password before creating account
-          const hashedUserID = await hashUserID(userID);
-          const hashedPassword = await hashPassword(password);
-          // Generate a random 4-digit number
-          const random4Digit = Math.floor(1000 + Math.random() * 9000).toString();
-          // Get the task answer from sessionStorage
-          const taskAnswer = sessionStorage.getItem("taskAnswer") || "";
-          await addVoter(hashedUserID, hashedPassword, random4Digit, taskAnswer);
-          await syncPendingVideoCountersAfterAuth();
-          persistParticipantCode(hashedUserID);
-          console.log("Signup successful");
-          
-          // Verify user is logged in after signup
-          const Parse = require('parse');
-          const currentUser = Parse.User.current();
-          console.log("Current user after signup:", currentUser?.get("username"));
-          console.log("Session token:", currentUser?.getSessionToken());
-          
-          if (currentUser) {
-            setIsLoggedIn(true);
-            navigate("/voting");
-          } else {
-            console.error("No current user after signup!");
-            setPasswordError("Signup succeeded but login failed. Please try logging in manually.");
-          }
-        } catch (signupError) {
-          console.error("Signup error:", signupError);
-          if (
-            signupError.message.includes("Account already exists") ||
-            signupError.code === 202
-          ) {
-            setUserIDError("This user ID is already taken. Please choose another.");
-          } else if (signupError.code === 100) {
-            setPasswordError("Connection failed. Please check your internet connection.");
-          } else {
-            setPasswordError(`Login failed: ${signupError.message || "Please try again."}`);
-          }
-        }
-      } else if (error.code === 100) {
-        setPasswordError("Connection failed. Please check your internet connection.");
-      } else {
-        setPasswordError(`Login failed: ${error.message || "Please try again."}`);
-      }
+    if (error.code === 100) {
+      setPasswordError("Connection failed. Please check your internet connection.");
+    } else {
+      setPasswordError(`Login failed: ${error.message || "Please try again."}`);
     }
+  }
 };
 
   const steps = ["Login", "Voting", "Confirmation"];
@@ -172,8 +139,40 @@ const handleSubmit = async (e) => {
         <div className="text-main login-text">
           Please enter your details below to access the online voting system.
         </div>
-        <div className="login-card">
-          <form onSubmit={handleSubmit} className="login-form">
+        <div className="card-wide" style={{ alignItems: "flex-start" }}>
+          <h1 className="card-title" style={{ width: "100%", textAlign: "left", margin: "0 0 10px 40px" }}>
+            Authentication Behavior
+          </h1>
+          <div className="text-main" style={{ width: "100%", textAlign: "left", marginLeft: "40px", marginRight: "40px", marginBottom: "0" }}>
+            This system uses two-factor authentication with coercion protection. Here's how the system responds to different inputs:
+          </div>
+          <div className="login-auth-scenarios" style={{ width: "100%", padding: "16px 40px 0 40px", boxSizing: "border-box" }}>
+            <div className="login-auth-scenario">
+              <div className="login-auth-scenario-title">✓ Correct credentials</div>
+              <div className="login-auth-scenario-desc">
+                Both your regular password and true thematic password are correct → Login succeeds and your vote will count in the final results.
+              </div>
+            </div>
+            <div className="login-auth-scenario">
+              <div className="login-auth-scenario-title">🔒 Coercion protection (security feature)</div>
+              <div className="login-auth-scenario-desc">
+                Regular password is correct, but you enter a <strong>fake thematic password within the same theme</strong> (e.g., "purple" instead of "blue" if your theme is colours) → Login appears successful and you can cast a vote, but <strong>the vote will not count</strong>. This protects you if someone is forcing you to vote a certain way.
+              </div>
+            </div>
+            <div className="login-auth-scenario">
+              <div className="login-auth-scenario-title">✗ Invalid input</div>
+              <div className="login-auth-scenario-desc">
+                Regular password is correct, but thematic password is <strong>not within the correct theme</strong> (e.g., "pizza" when your theme is colours) → <strong>Error message will be displayed</strong>. The system only suppresses errors when you enter a valid fake password within your theme.
+              </div>
+            </div>
+          </div>
+          <div className="login-auth-warning" style={{ margin: "16px 40px 0 40px" }}>
+            <strong>⚠ Important:</strong> If you cannot remember your credentials, do <strong>not</strong> enter arbitrary inputs. Random inputs that fall outside your theme will trigger error messages, potentially revealing to an observer that you don't know your credentials. Instead, contact voter support or vote in person at your local polling station.
+          </div>
+
+          <hr style={{ margin: "24px 40px", borderColor: "#e0e0e0", width: "calc(100% - 80px)" }} />
+
+          <form onSubmit={handleSubmit} className="login-form" style={{ width: "100%", padding: "0 40px", boxSizing: "border-box" }}>
             <label htmlFor="userID">Regular password</label>
             <input
               id="userID"

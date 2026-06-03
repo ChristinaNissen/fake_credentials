@@ -4,7 +4,7 @@ import Footer from "./Footer";
 import "./Voting-system.css";
 import "./Voting.css";
 import ProcessBar from "./ProcessBar";
-import { saveVote, getCandidate} from '../API/Voter.js';
+import { saveVote } from '../API/Voter.js';
 
 
 
@@ -50,29 +50,16 @@ const Voting = () => {
 
   const handleConfirm = async () => {
     setShowConfirm(false);
-    const candidateName = allCandidates.find((c) => c.id === selected)?.name;
+    const candidateName = allCandidates.find((c) => c.id === selected)?.name ?? "";
     const botTrapSelected = selected === hiddenBotTrapCandidate.id;
     sessionStorage.setItem("voteBotTrap", botTrapSelected ? "1" : "0");
-    
+
     try {
-      // Get the existing candidate from the database
-      const existingCandidate = await getCandidate();
-
-      // If candidate is empty
-      if (!existingCandidate || existingCandidate === "") {
-          await saveVote(candidateName);
-          navigate("/confirmation", { state: { votedCandidate: candidateName }, replace: true });
-        } else {
-          // Candidate already exists, navigate without saving
-          navigate("/confirmation", { state: { votedCandidate: candidateName }, replace: true });
-        }
-
-    } catch (error) {
-      console.error("Error handling vote confirmation:", error);
-      // Fallback: save the vote anyway
       await saveVote(candidateName);
-      navigate("/confirmation", { state: { votedCandidate: candidateName }, replace: true });
+    } catch (error) {
+      console.error("Error saving vote:", error);
     }
+    navigate("/confirmation", { state: { votedCandidate: candidateName }, replace: true });
   };
 
   const handleCancel = () => {

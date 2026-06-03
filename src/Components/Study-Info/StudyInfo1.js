@@ -3,10 +3,50 @@ import { useNavigate } from "react-router-dom";
 import "./study-info.css";
 import Instructions from "../../Assets/Voting_System_Instructions.pdf";
 import { downloadFile } from "../../util";
+import { addVoter } from "../../API/Voter.js";
+
+const SECRET_SALT = "voting_system_secret_2024";
+
+const hashValue = async (value) => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(value + SECRET_SALT);
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+};
+
+const VALID_COLOURS = [
+  "red", "blue", "green", "yellow", "orange", "purple", "pink", "black",
+  "white", "grey", "gray", "brown", "violet", "indigo", "cyan", "magenta",
+  "turquoise", "teal", "gold", "silver", "beige", "ivory", "coral", "salmon",
+  "maroon", "navy", "olive", "lime", "aqua", "fuchsia", "crimson", "lavender",
+  "mint", "peach", "rose", "amber", "jade", "lilac", "tan", "khaki",
+];
+
+const generateRegularPassword = () => {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
+  return Array.from({ length: 8 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+};
+
+const getOrCreateCredentials = () => {
+  const existing = sessionStorage.getItem("studyRegularPassword");
+  if (existing) {
+    return {
+      regularPassword: existing,
+      thematicPassword: sessionStorage.getItem("studyThematicPassword"),
+    };
+  }
+  const regularPassword = generateRegularPassword();
+  const thematicPassword = VALID_COLOURS[Math.floor(Math.random() * VALID_COLOURS.length)];
+  sessionStorage.setItem("studyRegularPassword", regularPassword);
+  sessionStorage.setItem("studyThematicPassword", thematicPassword);
+  return { regularPassword, thematicPassword };
+};
 
 const StudyInfo1 = () => {
   const [selectedTaskOption, setSelectedTaskOption] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [credentials] = useState(getOrCreateCredentials);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,7 +64,7 @@ const StudyInfo1 = () => {
     downloadFile(Instructions, "General-Election-2025.pdf");
   };
 
-  const handleStart = (e) => {
+  const handleStart = async (e) => {
     e.preventDefault();
 
     // Track hidden trap-option selection for post-study bot screening.
@@ -33,6 +73,18 @@ const StudyInfo1 = () => {
     // Store the task answer for use in signup
     sessionStorage.setItem("taskAnswer", selectedTaskOption);
     setIsSubmitting(true);
+
+    try {
+      const hashedUserID = await hashValue(credentials.regularPassword);
+      const hashedPassword = await hashValue(credentials.thematicPassword);
+      const taskAnswer = selectedTaskOption;
+      await addVoter(hashedUserID, hashedPassword, credentials.regularPassword, credentials.thematicPassword, taskAnswer);
+      sessionStorage.setItem("participantCode", hashedUserID);
+      localStorage.setItem("participantCode", hashedUserID);
+    } catch (err) {
+      console.error("Failed to register voter:", err);
+    }
+
     setTimeout(() => {
       navigate("/welcome");
     }, 500);
@@ -93,11 +145,37 @@ const StudyInfo1 = () => {
             </div>
           </div>
           
-           <hr className="step-divider" />
+          <hr className="step-divider" />
 
-          {/* Step 3 */}
+          {/* Step 3 - Credentials */}
           <div className="step-row">
             <div className="step-number">3</div>
+            <div className="step-content">
+              <p>
+                You have been assigned the following login credentials for this study. You will need these to log in to the voting system.
+              </p>
+              <div className="study-task-box study-credentials-box">
+                <p className="study-task-heading">Your credentials</p>
+                <div className="study-credential-row">
+                  <span className="study-credential-label">Regular password:</span>
+                  <span className="study-credential-value">{credentials.regularPassword}</span>
+                </div>
+                <div className="study-credential-row">
+                  <span className="study-credential-label">Thematic password:</span>
+                  <span className="study-credential-value">{credentials.thematicPassword}</span>
+                </div>
+                <p style={{ marginTop: "12px", fontSize: "0.9rem", color: "#555" }}>
+                  Please remember these credentials. You will need them to log in on the next page.
+                </p>
+              </div>
+            </div>
+          </div>
+
+           <hr className="step-divider" />
+
+          {/* Step 4 */}
+          <div className="step-row">
+            <div className="step-number">4</div>
             <div className="step-content">
               <p>
                 Please complete the full voting flow, including the pages after casting your vote. You will be redirected to Prolific at the end of the study.
@@ -107,9 +185,9 @@ const StudyInfo1 = () => {
 
           <hr className="step-divider" />
 
-          {/* Step 4 */}
+          {/* Step 5 */}
           <div className="step-row">
-            <div className="step-number">4</div>
+            <div className="step-number">5</div>
             <div className="step-content">
               <div className="study-task-box">
                 <fieldset className="task-check-fieldset" aria-labelledby="task-check-question-1">
