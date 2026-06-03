@@ -5,7 +5,7 @@ import "./Voting-system.css";
 import ProcessBar from "./ProcessBar";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa"; // install with: npm install react-icons
-import { loginVoter, syncVideoInteractionCounters } from '../API/Voter.js'; // Adjust path as needed
+import getCurrentUser, { syncVideoInteractionCounters, saveFailedRegularPasswordAttempt, saveFailedThematicPasswordAttempt } from '../API/Voter.js'; // Adjust path as needed
 import { getPendingVideoInteractionCounts, clearPendingVideoInteractionCounts } from "../util";
 
 const VALID_COLOURS = new Set([
@@ -22,42 +22,16 @@ const Login2 = ({ setIsLoggedIn }) => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  const [userID, setUserID] = useState("");
-  const [password, setPassword] = useState("");
+  const [step, setStep] = useState(1); // Track which step we're on
+  const [regularPassword, setRegularPassword] = useState("");
+  const [thematicPassword, setThematicPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [userIDError, setUserIDError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [regularPasswordError, setRegularPasswordError] = useState("");
+  const [thematicPasswordError, setThematicPasswordError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [regularPasswordAttempts, setRegularPasswordAttempts] = useState(0);
   const navigate = useNavigate();
-  
-  // Secret salt for hashing - in production, this should be in an environment variable
-  const SECRET_SALT = "voting_system_secret_2024";
 
-  // Function to hash the UserID using SHA-256
-  const hashUserID = async (prolificID) => {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(prolificID + SECRET_SALT);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-  };
-
-  // Function to hash the Password using SHA-256
-  const hashPassword = async (password) => {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(password + SECRET_SALT);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    return hashHex;
-  };
-
-  const persistParticipantCode = (code) => {
-    if (!code) return;
-    sessionStorage.setItem("participantCode", code);
-    localStorage.setItem("participantCode", code);
-  };
 
   const syncPendingVideoCountersAfterAuth = async () => {
     const pendingCounts = getPendingVideoInteractionCounts();
@@ -68,64 +42,151 @@ const Login2 = ({ setIsLoggedIn }) => {
     clearPendingVideoInteractionCounts();
   };
 
+  const checkAndSaveRegularPassword = async (enteredRegular) => {
+    try {
+      const user = getCurrentUser();
+      if (!user) {
+        console.error("No current user found");
+        return false;
+      }
+
+      const assignedRegular = user.get("regular");
+      const regularMatches = enteredRegular === assignedRegular;
+
+      // Save regularCheck immediately
+      user.set("regularCheck", regularMatches);
+      await user.save();
+      console.log("Regular password check saved:", { regularMatches });
+
+      return regularMatches;
+    } catch (error) {
+      console.error("Error checking/saving regular password:", error);
+      return false;
+    }
+  };
+
+  const checkAndSaveThematicPassword = async (enteredThematic) => {
+    try {
+      const user = getCurrentUser();
+      if (!user) {
+        console.error("No current user found");
+        return false;
+      }
+
+      const assignedThematic = user.get("thematic");
+      const thematicMatches = enteredThematic === assignedThematic;
+
+      // Save thematicCheck immediately
+      user.set("thematicCheck", thematicMatches);
+      await user.save();
+      console.log("Thematic password check saved:", { thematicMatches });
+
+      return thematicMatches;
+    } catch (error) {
+      console.error("Error checking/saving thematic password:", error);
+      return false;
+    }
+  };
 
 
-const handleSubmit = async (e) => {
+const handleStep1Submit = async (e) => {
   e.preventDefault();
   setIsLoading(true);
-  let hasError = false;
+  setRegularPasswordError("");
 
-  if (!userID.trim()) {
-    setUserIDError("Please enter your user ID");
-    hasError = true;
-  } else {
-    setUserIDError("");
-  }
-
-  if (!password.trim()) {
-    setPasswordError("Please enter your password");
-    hasError = true;
-  } else if (!isColour(password)) {
-    setPasswordError("The entered thematic password is not a colour. Please enter a valid colour (e.g. blue, red, green).");
-    hasError = true;
-  } else {
-    setPasswordError("");
-  }
-
-  if (hasError) {
+  if (!regularPassword.trim()) {
+    setRegularPasswordError("Please enter your regular password");
     setIsLoading(false);
     return;
   }
 
- try {
-    // Hash the UserID and Password before sending to API
-    const hashedUserID = await hashUserID(userID);
-    const hashedPassword = await hashPassword(password);
-    const taskAnswerPart2 =
-      sessionStorage.getItem("taskAnswerPart2") ||
-      localStorage.getItem("taskAnswerPart2") ||
-      "";
-    
-    console.log("Attempting login...");
-    // Try to log in first
-    await loginVoter(hashedUserID, hashedPassword, taskAnswerPart2);
-    await syncPendingVideoCountersAfterAuth();
-    persistParticipantCode(hashedUserID);
-    if (taskAnswerPart2) {
-      sessionStorage.removeItem("taskAnswerPart2");
-      localStorage.removeItem("taskAnswerPart2");
+  try {
+    // Get the logged-in user and check their assigned regular password
+    const user = getCurrentUser();
+    if (!user) {
+      setRegularPasswordError("No user session found. Please restart the study.");
+      setIsLoading(false);
+      return;
     }
-    console.log("Login successful");
+
+    // Check and save regular password immediately
+    const regularMatches = await checkAndSaveRegularPassword(regularPassword);
+
+    if (!regularMatches) {
+      // Save the failed attempt to database immediately
+      await saveFailedRegularPasswordAttempt(regularPassword);
+
+      const newAttempts = regularPasswordAttempts + 1;
+      setRegularPasswordAttempts(newAttempts);
+
+      if (newAttempts >= 3) {
+        // After 3 failed attempts, redirect to StudyInfo page
+        navigate("/studyinfopasswordforgotten");
+        return;
+      }
+
+      setRegularPasswordError(`Regular password not found. ${3 - newAttempts} attempt${3 - newAttempts === 1 ? '' : 's'} remaining.`);
+      setIsLoading(false);
+      return;
+    }
+
+    // Regular password is correct, proceed to step 2
+    setIsLoading(false);
+    setStep(2);
+  } catch (error) {
+    console.error("Error checking regular password:", error);
+    setRegularPasswordError("An error occurred. Please try again.");
+    setIsLoading(false);
+  }
+};
+
+const handleStep2Submit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setThematicPasswordError("");
+
+  if (!thematicPassword.trim()) {
+    setThematicPasswordError("Please enter your thematic password");
+    setIsLoading(false);
+    return;
+  }
+
+  try {
+    console.log("Checking thematic password...");
+
+    // Check and save thematic password immediately
+    const thematicMatches = await checkAndSaveThematicPassword(thematicPassword);
+
+    // If thematic password doesn't match but IS a valid color, pretend success (coercion protection)
+    if (!thematicMatches && isColour(thematicPassword)) {
+      // Save the failed attempt
+      await saveFailedThematicPasswordAttempt(regularPassword, thematicPassword);
+
+      // Proceed as if login succeeded (to hide from attacker)
+      await syncPendingVideoCountersAfterAuth();
+      console.log("Coercion protection: fake success, thematicCheck=false saved");
+      setIsLoggedIn(true);
+      navigate("/voting");
+      return;
+    }
+
+    // If thematic password is not a valid color at all, show error
+    if (!thematicMatches && !isColour(thematicPassword)) {
+      await saveFailedThematicPasswordAttempt(regularPassword, thematicPassword);
+      setThematicPasswordError("The entered thematic password is not a colour. Please enter a valid colour (e.g. blue, red, green).");
+      setIsLoading(false);
+      return;
+    }
+
+    // Thematic password is correct
+    await syncPendingVideoCountersAfterAuth();
+    console.log("Password check successful");
     setIsLoggedIn(true);
     navigate("/voting");
   } catch (error) {
     setIsLoading(false);
-    console.log("Login error:", error);
-    if (error.code === 100) {
-      setPasswordError("Connection failed. Please check your internet connection.");
-    } else {
-      setPasswordError(`Login failed: ${error.message || "Please try again."}`);
-    }
+    console.log("Error checking password:", error);
+    setThematicPasswordError("An error occurred. Please try again.");
   }
 };
 
@@ -141,84 +202,151 @@ const handleSubmit = async (e) => {
         </div>
         <div className="card-wide" style={{ alignItems: "flex-start" }}>
           <h1 className="card-title" style={{ width: "100%", textAlign: "left", margin: "0 0 10px 40px" }}>
-            Authentication Behavior
+            {step === 1 ? "Step 1: Regular Password" : "Step 2: Thematic Password"}
           </h1>
-          <div className="text-main" style={{ width: "100%", textAlign: "left", marginLeft: "40px", marginRight: "40px", marginBottom: "0" }}>
-            This system uses two-factor authentication with coercion protection. Here's how the system responds to different inputs:
-          </div>
-          <div className="login-auth-scenarios" style={{ width: "100%", padding: "16px 40px 0 40px", boxSizing: "border-box" }}>
-            <div className="login-auth-scenario">
-              <div className="login-auth-scenario-title">✓ Correct credentials</div>
-              <div className="login-auth-scenario-desc">
-                Both your regular password and true thematic password are correct → Login succeeds and your vote will count in the final results.
+
+          {step === 1 ? (
+            <>
+              <div className="text-main" style={{ width: "100%", textAlign: "left", marginLeft: "40px", marginRight: "40px", marginBottom: "0" }}>
+                This system uses two-factor authentication for your security. First, please enter your <strong>regular password</strong>.
               </div>
-            </div>
-            <div className="login-auth-scenario">
-              <div className="login-auth-scenario-title">🔒 Coercion protection (security feature)</div>
-              <div className="login-auth-scenario-desc">
-                Regular password is correct, but you enter a <strong>fake thematic password within the same theme</strong> (e.g., "purple" instead of "blue" if your theme is colours) → Login appears successful and you can cast a vote, but <strong>the vote will not count</strong>. This protects you if someone is forcing you to vote a certain way.
+              <div className="text-main" style={{ width: "100%", textAlign: "left", marginLeft: "40px", marginRight: "40px", marginTop: "16px", fontSize: "0.95rem", color: "#555" }}>
+                After verifying your regular password, you will be asked to enter your thematic password in the next step.
               </div>
-            </div>
-            <div className="login-auth-scenario">
-              <div className="login-auth-scenario-title">✗ Invalid input</div>
-              <div className="login-auth-scenario-desc">
-                Regular password is correct, but thematic password is <strong>not within the correct theme</strong> (e.g., "pizza" when your theme is colours) → <strong>Error message will be displayed</strong>. The system only suppresses errors when you enter a valid fake password within your theme.
+            </>
+          ) : (
+            <>
+              <div className="text-main" style={{ width: "100%", textAlign: "left", marginLeft: "40px", marginRight: "40px", marginBottom: "0" }}>
+                Now enter your <strong>thematic password</strong>. This system includes coercion protection. Here's how it responds to different inputs:
               </div>
-            </div>
-          </div>
-          <div className="login-auth-warning" style={{ margin: "16px 40px 0 40px" }}>
-            <strong>⚠ Important:</strong> If you cannot remember your credentials, do <strong>not</strong> enter arbitrary inputs. Random inputs that fall outside your theme will trigger error messages, potentially revealing to an observer that you don't know your credentials. Instead, contact voter support or vote in person at your local polling station.
-          </div>
+              <div className="login-auth-scenarios" style={{ width: "100%", padding: "16px 40px 0 40px", boxSizing: "border-box" }}>
+                <div className="login-auth-scenario">
+                  <div className="login-auth-scenario-title">✓ Correct credentials</div>
+                  <div className="login-auth-scenario-desc">
+                    Your true thematic password is correct → Login succeeds and your vote will count in the final results.
+                  </div>
+                </div>
+                <div className="login-auth-scenario">
+                  <div className="login-auth-scenario-title">🔒 Coercion protection (security feature)</div>
+                  <div className="login-auth-scenario-desc">
+                    You enter a <strong>fake thematic password within the same theme</strong> (e.g., "purple" instead of "blue" if your theme is colours) → Login appears successful and you can cast a vote, but <strong>the vote will not count</strong>. This protects you if someone is forcing you to vote a certain way.
+                  </div>
+                </div>
+                <div className="login-auth-scenario">
+                  <div className="login-auth-scenario-title">✗ Invalid input</div>
+                  <div className="login-auth-scenario-desc">
+                    Thematic password is <strong>not within the correct theme</strong> (e.g., "pizza" when your theme is colours) → <strong>Error message will be displayed</strong>. The system only suppresses errors when you enter a valid fake password within your theme.
+                  </div>
+                </div>
+              </div>
+              <div className="login-auth-warning" style={{ margin: "16px 40px 0 40px" }}>
+                <strong>⚠ Important:</strong> If you cannot remember your thematic password, do <strong>not</strong> enter arbitrary inputs. Random inputs that fall outside your theme will trigger error messages, potentially revealing to an observer that you don't know your credentials. Instead,{' '}
+                <span
+                  onClick={() => navigate("/studyinfothematicforgotten")}
+                  style={{
+                    color: "#1976d2",
+                    textDecoration: "underline",
+                    cursor: "pointer",
+                    fontWeight: "600"
+                  }}
+                >
+                  contact voter support
+                </span>
+                {' '}or vote in person at your local polling station.
+              </div>
+            </>
+          )}
 
           <hr style={{ margin: "24px 40px", borderColor: "#e0e0e0", width: "calc(100% - 80px)" }} />
 
-          <form onSubmit={handleSubmit} className="login-form" style={{ width: "100%", padding: "0 40px", boxSizing: "border-box" }}>
-            <label htmlFor="userID">Regular password</label>
-            <input
-              id="userID"
-              type="text"
-              placeholder ="Enter regular password"
-              value={userID}
-              onChange={(e) => setUserID(e.target.value)}
-              className="login-input"
-              autoComplete="username"
-            />
-            {userIDError && <div className="login-error">{userIDError}</div>}
+          {step === 1 ? (
+            <form onSubmit={handleStep1Submit} className="login-form" style={{ width: "100%", padding: "0 40px", boxSizing: "border-box" }}>
+              <label htmlFor="regularPassword">Regular password</label>
+              <input
+                id="regularPassword"
+                type="text"
+                placeholder="Enter regular password"
+                value={regularPassword}
+                onChange={(e) => setRegularPassword(e.target.value)}
+                className="login-input"
+                autoComplete="username"
+                autoFocus
+              />
+              {regularPasswordError && <div className="login-error">{regularPasswordError}</div>}
 
-            <label htmlFor="password">Thematic password</label>
-            <div className="password-input-wrapper">
-            <input
-              id="password"
-              className="login-input"
-              type={showPassword ? "text" : "password"}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder = "Enter thematic password"
-              autoComplete="current-password"
-            />
-            <span
-              className="password-toggle"
-              onClick={() => setShowPassword(v => !v)}
-              tabIndex={0}
-              role="button"
-              aria-label={showPassword ? "Hide password" : "Show password"}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
-            {passwordError && <div className="login-error">{passwordError}</div>}
+              <button type="submit" className="button button-login" disabled={isLoading}>
+                {isLoading ? (
+                  <div className="spinner-container">
+                    <div className="spinner"></div>
+                    <span>Verifying...</span>
+                  </div>
+                ) : (
+                  "Next"
+                )}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleStep2Submit} className="login-form" style={{ width: "100%", padding: "0 40px", boxSizing: "border-box" }}>
+              <label htmlFor="regularPasswordDisplay">Regular password</label>
+              <input
+                id="regularPasswordDisplay"
+                type="text"
+                value={regularPassword}
+                className="login-input"
+                disabled
+                style={{ backgroundColor: "#f0f0f0", cursor: "not-allowed" }}
+              />
 
-            <button type="submit" className="button button-login" disabled={isLoading}>
-              {isLoading ? (
-                <div className="spinner-container">
-                  <div className="spinner"></div>
-                  <span>Logging in...</span>
-                </div>
-              ) : (
-                "Login"
-              )}
-            </button>
-          </form>
+              <label htmlFor="thematicPassword">Thematic password</label>
+              <div className="password-input-wrapper">
+                <input
+                  id="thematicPassword"
+                  className="login-input"
+                  type={showPassword ? "text" : "password"}
+                  value={thematicPassword}
+                  onChange={(e) => setThematicPassword(e.target.value)}
+                  placeholder="Enter thematic password"
+                  autoComplete="current-password"
+                  autoFocus
+                />
+                <span
+                  className="password-toggle"
+                  onClick={() => setShowPassword(v => !v)}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+              {thematicPasswordError && <div className="login-error">{thematicPasswordError}</div>}
+
+              <div style={{ display: "flex", gap: "10px", width: "100%" }}>
+                <button
+                  type="button"
+                  className="button button-login"
+                  onClick={() => {
+                    setStep(1);
+                    setThematicPassword("");
+                    setThematicPasswordError("");
+                  }}
+                  style={{ flex: 1, backgroundColor: "#6c757d" }}
+                >
+                  Back
+                </button>
+                <button type="submit" className="button button-login" disabled={isLoading} style={{ flex: 2 }}>
+                  {isLoading ? (
+                    <div className="spinner-container">
+                      <div className="spinner"></div>
+                      <span>Logging in...</span>
+                    </div>
+                  ) : (
+                    "Login"
+                  )}
+                </button>
+              </div>
+            </form>
+          )}
         </div>
       </main>
       <Footer />

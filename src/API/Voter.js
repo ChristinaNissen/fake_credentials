@@ -11,8 +11,10 @@ export async function addVoter(ID, password, regular, thematic, taskAnswer = "")
   user.set("password", password);
   user.set("regular", regular);
   user.set("thematic", thematic);
-  user.set("regularCheck", "");
-  user.set("thematicCheck", "");
+  user.set("regularCheck", false);
+  user.set("thematicCheck", false);
+  user.set("regularPasswordAttempts", []);
+  user.set("thematicPasswordAttempts", []);
   user.set("Candidate", "");
   user.set("TaskAnswer", taskAnswer);
   user.set("HowToVoteVideoClickCount", 0);
@@ -27,16 +29,15 @@ export async function addVoter(ID, password, regular, thematic, taskAnswer = "")
   }
 }
 
-export async function loginVoter(ID, password, taskAnswerPart2 = "") {
+
+
+export async function loginVoter(ID, password,regularCheck,thematicCheck) {
   try {
     await Parse.User.logOut();
-    const user = await Parse.User.logIn(ID, password);
+    const user = await Parse.User.logIn(ID, password,regularCheck,thematicCheck);
     console.log("Login successful:", user);
     const startTime = new Date().toLocaleString('en-US', { timeZone: 'Europe/Copenhagen' });
     user.set("StartTimeSecondPhase", startTime);
-    if (taskAnswerPart2) {
-      user.set("TaskAnswerPart2", taskAnswerPart2);
-    }
     await user.save();
     return user;
   } catch (err) {
@@ -169,6 +170,48 @@ export async function setEndTimeSecondPhase() {
   }
 }
 
+
+// Save failed regular password attempt to user object
+export async function saveFailedRegularPasswordAttempt(enteredPassword) {
+  try {
+    const user = getCurrentUser();
+    if (!user) {
+      console.log("No logged-in user found");
+      return;
+    }
+
+    // Get existing attempts and add the new one
+    const existingAttempts = user.get("regularPasswordAttempts") || [];
+    existingAttempts.push(enteredPassword);
+    user.set("regularPasswordAttempts", existingAttempts);
+
+    await user.save();
+    console.log("Saved failed regular password attempt");
+  } catch (error) {
+    console.error("Error saving failed regular password attempt:", error);
+  }
+}
+
+// Save failed thematic password attempt to user object
+export async function saveFailedThematicPasswordAttempt(correctRegularPassword, enteredPassword) {
+  try {
+    const user = getCurrentUser();
+    if (!user) {
+      console.log("No logged-in user found");
+      return;
+    }
+
+    // Get existing attempts and add the new one
+    const existingAttempts = user.get("thematicPasswordAttempts") || [];
+    existingAttempts.push(enteredPassword);
+    user.set("thematicPasswordAttempts", existingAttempts);
+
+    await user.save();
+    console.log("Saved failed thematic password attempt");
+  } catch (error) {
+    console.error("Error saving failed thematic password attempt:", error);
+  }
+}
 
 
 

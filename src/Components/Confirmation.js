@@ -4,7 +4,7 @@ import Footer from "./Footer.js";
 import "./Voting-system.css";
 import "./BallotConfirmation.css";
 import ProcessBar from "./ProcessBar.js"; 
-import { setSessionEnd, setEndTimeFirstPhase } from "../API/Voter.js";
+import { setSessionEnd, setEndTimeFirstPhase, logoutVoter } from "../API/Voter.js";
 
 
 function Confirmation({ setIsLoggedIn }) {
@@ -18,6 +18,7 @@ function Confirmation({ setIsLoggedIn }) {
        try {
           await setEndTimeFirstPhase();
           await setSessionEnd();
+          await logoutVoter();
          navigate("/studyinfo2");
        } catch (error) {
          console.error("Error during logout:", error);

@@ -32,17 +32,6 @@ const StudyInfo2 = () => {
 
       if (id) {
         setUserID(id);
-        sessionStorage.setItem("participantCode", id);
-        localStorage.setItem("participantCode", id);
-        return;
-      }
-
-      const cachedId =
-        sessionStorage.getItem("participantCode") ||
-        localStorage.getItem("participantCode");
-
-      if (cachedId) {
-        setUserID(cachedId);
       } else {
         setShowCodeUnavailableMessage(true);
       }

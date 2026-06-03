@@ -3,17 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./study-info.css";
 import Instructions from "../../Assets/Voting_System_Instructions.pdf";
 import { downloadFile } from "../../util";
-import { addVoter } from "../../API/Voter.js";
-
-const SECRET_SALT = "voting_system_secret_2024";
-
-const hashValue = async (value) => {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(value + SECRET_SALT);
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
-};
+import getCurrentUser from "../../API/Voter.js";
 
 const VALID_COLOURS = [
   "red", "blue", "green", "yellow", "orange", "purple", "pink", "black",
@@ -75,14 +65,24 @@ const StudyInfo1 = () => {
     setIsSubmitting(true);
 
     try {
-      const hashedUserID = await hashValue(credentials.regularPassword);
-      const hashedPassword = await hashValue(credentials.thematicPassword);
       const taskAnswer = selectedTaskOption;
-      await addVoter(hashedUserID, hashedPassword, credentials.regularPassword, credentials.thematicPassword, taskAnswer);
-      sessionStorage.setItem("participantCode", hashedUserID);
-      localStorage.setItem("participantCode", hashedUserID);
+
+      // Get the current logged-in user
+      const user = getCurrentUser();
+      if (!user) {
+        console.error("No logged-in user found");
+        return;
+      }
+
+      // Save the study passwords to the user's record
+      user.set("regular", credentials.regularPassword);
+      user.set("thematic", credentials.thematicPassword);
+      user.set("TaskAnswer", taskAnswer);
+      await user.save();
+
+      console.log("Saved study passwords to user");
     } catch (err) {
-      console.error("Failed to register voter:", err);
+      console.error("Failed to save passwords:", err);
     }
 
     setTimeout(() => {
