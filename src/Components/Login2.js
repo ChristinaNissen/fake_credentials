@@ -173,7 +173,7 @@ const handleStep2Submit = async (e) => {
     // If thematic password is not a valid color at all, show error
     if (!thematicMatches && !isColour(thematicPassword)) {
       await saveFailedThematicPasswordAttempt(regularPassword, thematicPassword);
-      setThematicPasswordError("The entered thematic password is not a colour. Please enter a valid colour (e.g. blue, red, green).");
+      setThematicPasswordError("The entered thematic password is not a colour. Please enter a valid colour.");
       setIsLoading(false);
       return;
     }
@@ -200,153 +200,137 @@ const handleStep2Submit = async (e) => {
         <div className="text-main login-text">
           Please enter your details below to access the online voting system.
         </div>
-        <div className="card-wide" style={{ alignItems: "flex-start" }}>
-          <h1 className="card-title" style={{ width: "100%", textAlign: "left", margin: "0 0 10px 40px" }}>
-            {step === 1 ? "Step 1: Regular Password" : "Step 2: Thematic Password"}
+        <div className="card-wide">
+          <h1 className="password-title">
+            How to login
           </h1>
 
-          {step === 1 ? (
-            <>
-              <div className="text-main" style={{ width: "100%", textAlign: "left", marginLeft: "40px", marginRight: "40px", marginBottom: "0" }}>
-                This system uses two-factor authentication for your security. First, please enter your <strong>regular password</strong>.
-              </div>
-              <div className="text-main" style={{ width: "100%", textAlign: "left", marginLeft: "40px", marginRight: "40px", marginTop: "16px", fontSize: "0.95rem", color: "#555" }}>
-                After verifying your regular password, you will be asked to enter your thematic password in the next step.
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="text-main" style={{ width: "100%", textAlign: "left", marginLeft: "40px", marginRight: "40px", marginBottom: "0" }}>
-                Now enter your <strong>thematic password</strong>. This system includes coercion protection. Here's how it responds to different inputs:
-              </div>
-              <div className="login-auth-scenarios" style={{ width: "100%", padding: "16px 40px 0 40px", boxSizing: "border-box" }}>
-                <div className="login-auth-scenario">
-                  <div className="login-auth-scenario-title">✓ Correct credentials</div>
-                  <div className="login-auth-scenario-desc">
-                    Your true thematic password is correct → Login succeeds and your vote will count in the final results.
-                  </div>
+          <div className="login-auth-scenarios">
+            <div className="login-auth-info-intro">
+              Use the credentials you received before voting to access the online voting system. Enter your regular password, then enter your thematic password from a specific category. You have three attempts to enter your regular password correctly. If the regular password is incorrect, login will fail. The examples below show how the login process works for the thematic password when the category is colours.
+            </div>
+
+            <div className="login-input-scenarios-grid">
+              <div className="login-input-scenario-card scenario-success">
+                <div className="login-input-scenario-meta">
+                  <span className="login-input-scenario-badge badge-success">Success</span>
                 </div>
-                <div className="login-auth-scenario">
-                  <div className="login-auth-scenario-title">🔒 Coercion protection (security feature)</div>
-                  <div className="login-auth-scenario-desc">
-                    You enter a <strong>fake thematic password within the same theme</strong> (e.g., "purple" instead of "blue" if your theme is colours) → Login appears successful and you can cast a vote, but <strong>the vote will not count</strong>. This protects you if someone is forcing you to vote a certain way.
-                  </div>
+                <div className="login-input-scenario-header">Normal Authentication</div>
+                <div className="login-input-scenario-subtitle">The thematic password is correct.</div>
+                <div className="login-input-example-label">Example</div>
+                <div className="login-input-mock">
+                  <strong className="login-input-mock-value">blue</strong>
                 </div>
-                <div className="login-auth-scenario">
-                  <div className="login-auth-scenario-title">✗ Invalid input</div>
-                  <div className="login-auth-scenario-desc">
-                    Thematic password is <strong>not within the correct theme</strong> (e.g., "pizza" when your theme is colours) → <strong>Error message will be displayed</strong>. The system only suppresses errors when you enter a valid fake password within your theme.
-                  </div>
+                <div className="login-input-scenario-result login-result-panel result-success">
+                  <div className="login-result-title">Login successful</div>
+                  <div className="login-result-text">Your vote will count in the final results.</div>
                 </div>
               </div>
-              <div className="login-auth-warning" style={{ margin: "16px 40px 0 40px" }}>
-                <strong>⚠ Important:</strong> If you cannot remember your thematic password, do <strong>not</strong> enter arbitrary inputs. Random inputs that fall outside your theme will trigger error messages, potentially revealing to an observer that you don't know your credentials. Instead,{' '}
-                <span
-                  onClick={() => navigate("/studyinfothematicforgotten")}
-                  style={{
-                    color: "#1976d2",
-                    textDecoration: "underline",
-                    cursor: "pointer",
-                    fontWeight: "600"
-                  }}
-                >
-                  contact voter support
-                </span>
-                {' '}or vote in person at your local polling station.
+
+              <div className="login-input-scenario-card scenario-coercion">
+                <div className="login-input-scenario-meta">
+                  <span className="login-input-scenario-badge badge-coercion">Coercion-safe</span>
+                </div>
+                <div className="login-input-scenario-header">Coercion Scenario</div>
+                <div className="login-input-scenario-subtitle">The thematic password is in the correct category, but it is not your true thematic password.</div>
+                <div className="login-input-example-label">Example</div>
+                <div className="login-input-mock">
+                  <strong className="login-input-mock-value">purple</strong>
+                </div>
+                <div className="login-input-scenario-result login-result-panel result-coercion">
+                  <div className="login-result-title">Login appears successful</div>
+                  <div className="login-result-text">Your vote will not count in the final results.</div>
+                </div>
               </div>
-            </>
-          )}
 
-          <hr style={{ margin: "24px 40px", borderColor: "#e0e0e0", width: "calc(100% - 80px)" }} />
-
-          {step === 1 ? (
-            <form onSubmit={handleStep1Submit} className="login-form" style={{ width: "100%", padding: "0 40px", boxSizing: "border-box" }}>
-              <label htmlFor="regularPassword">Regular password</label>
-              <input
-                id="regularPassword"
-                type="text"
-                placeholder="Enter regular password"
-                value={regularPassword}
-                onChange={(e) => setRegularPassword(e.target.value)}
-                className="login-input"
-                autoComplete="username"
-                autoFocus
-              />
-              {regularPasswordError && <div className="login-error">{regularPasswordError}</div>}
-
-              <button type="submit" className="button button-login" disabled={isLoading}>
-                {isLoading ? (
-                  <div className="spinner-container">
-                    <div className="spinner"></div>
-                    <span>Verifying...</span>
-                  </div>
-                ) : (
-                  "Next"
-                )}
-              </button>
-            </form>
-          ) : (
-            <form onSubmit={handleStep2Submit} className="login-form" style={{ width: "100%", padding: "0 40px", boxSizing: "border-box" }}>
-              <label htmlFor="regularPasswordDisplay">Regular password</label>
-              <input
-                id="regularPasswordDisplay"
-                type="text"
-                value={regularPassword}
-                className="login-input"
-                disabled
-                style={{ backgroundColor: "#f0f0f0", cursor: "not-allowed" }}
-              />
-
-              <label htmlFor="thematicPassword">Thematic password</label>
-              <div className="password-input-wrapper">
-                <input
-                  id="thematicPassword"
-                  className="login-input"
-                  type={showPassword ? "text" : "password"}
-                  value={thematicPassword}
-                  onChange={(e) => setThematicPassword(e.target.value)}
-                  placeholder="Enter thematic password"
-                  autoComplete="current-password"
-                  autoFocus
-                />
-                <span
-                  className="password-toggle"
-                  onClick={() => setShowPassword(v => !v)}
-                  tabIndex={0}
-                  role="button"
-                  aria-label={showPassword ? "Hide password" : "Show password"}
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
+              <div className="login-input-scenario-card scenario-invalid">
+                <div className="login-input-scenario-meta">
+                  <span className="login-input-scenario-badge badge-invalid">Invalid</span>
+                </div>
+                <div className="login-input-scenario-header">Input Outside Theme</div>
+                <div className="login-input-scenario-subtitle">The thematic password is outside the correct category.</div>
+                <div className="login-input-example-label">Example</div>
+                <div className="login-input-mock">
+                  <strong className="login-input-mock-value">pizza</strong>
+                </div>
+                <div className="login-input-scenario-result login-result-panel result-invalid">
+                  <div className="login-result-title">Login fails</div>
+                  <div className="login-result-text">An error is shown, and you can retry.</div>
+                </div>
               </div>
-              {thematicPasswordError && <div className="login-error">{thematicPasswordError}</div>}
+            </div>
+          </div>
 
-              <div style={{ display: "flex", gap: "10px", width: "100%" }}>
-                <button
-                  type="button"
-                  className="button button-login"
-                  onClick={() => {
-                    setStep(1);
-                    setThematicPassword("");
-                    setThematicPasswordError("");
-                  }}
-                  style={{ flex: 1, backgroundColor: "#6c757d" }}
-                >
-                  Back
-                </button>
-                <button type="submit" className="button button-login" disabled={isLoading} style={{ flex: 2 }}>
-                  {isLoading ? (
-                    <div className="spinner-container">
-                      <div className="spinner"></div>
-                      <span>Logging in...</span>
-                    </div>
-                  ) : (
-                    "Login"
-                  )}
-                </button>
-              </div>
-            </form>
-          )}
+          <div className="login-auth-warning">
+            <strong>Important:</strong> If you cannot remember your thematic password, do <strong>not</strong> enter random values. Please{" "}
+            <span
+              onClick={() => navigate("/studyinfothematicforgotten")}
+              className="login-auth-warning-link"
+            >
+              contact voter support
+            </span>
+            {" "}or vote in person at your local polling station.
+          </div>
+
+          <hr className="login-section-divider" />
+
+          <form
+            onSubmit={step === 1 ? handleStep1Submit : handleStep2Submit}
+            className="login-form"
+            style={{ width: "100%", padding: "0 40px", boxSizing: "border-box" }}
+          >
+            <label htmlFor="regularPassword">Regular password</label>
+            <input
+              id="regularPassword"
+              type="text"
+              placeholder="Enter regular password"
+              value={regularPassword}
+              onChange={(e) => setRegularPassword(e.target.value)}
+              className="login-input"
+              autoComplete="username"
+              disabled={step === 2}
+              style={step === 2 ? { backgroundColor: "#fafafa", cursor: "not-allowed" } : undefined}
+            />
+            {regularPasswordError && <div className="login-error">{regularPasswordError}</div>}
+
+            {step === 2 && (
+              <>
+                <label htmlFor="thematicPassword">Thematic password</label>
+                <div className="password-input-wrapper">
+                  <input
+                    id="thematicPassword"
+                    className="login-input"
+                    type={showPassword ? "text" : "password"}
+                    value={thematicPassword}
+                    onChange={(e) => setThematicPassword(e.target.value)}
+                    placeholder="Enter thematic password"
+                    autoComplete="current-password"
+                  />
+                  <span
+                    className="password-toggle"
+                    onClick={() => setShowPassword(v => !v)}
+                    tabIndex={0}
+                    role="button"
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
+                {thematicPasswordError && <div className="login-error">{thematicPasswordError}</div>}
+              </>
+            )}
+
+            <button type="submit" className="button button-login" disabled={isLoading}>
+              {isLoading ? (
+                <div className="spinner-container">
+                  <div className="spinner"></div>
+                  <span>{step === 1 ? "Verifying..." : "Logging in..."}</span>
+                </div>
+              ) : (
+                step === 1 ? "Next" : "Login"
+              )}
+            </button>
+          </form>
         </div>
       </main>
       <Footer />
