@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./study-info.css";
-import Instructions from "../../Assets/Voting_System_Instructions_Fake_Credentials.pdf";
+import Instructions from "../../Assets/Voting_System_Instructions.pdf";
 import { downloadFile } from "../../util";
 
 const StudyInfo3 = () => {
@@ -42,9 +42,9 @@ const StudyInfo3 = () => {
 
   return (
     <div className="study-center-bg">
-        <div className="inner-box-info padding-top-info-page" style={{ maxWidth: "35rem" }}>
+        <div className="inner-box-info padding-top-info-page study-narrow-content">
 
-        <h1>Part 2: Before You Start</h1>
+        <h1>Part 2: Study Instructions</h1>
                   <hr className="step-divider" />
 
         <form onSubmit={handleStart}>
@@ -53,26 +53,20 @@ const StudyInfo3 = () => {
             <div className="step-number">1</div>
             <div className="step-content">
               <p>
-                Imagine that the general election in your country is still ongoing and that voters can access the system at any time during the election period to update their vote.
+                Imagine some time has passed since you cast your vote. The general election is still ongoing.
               </p>
               <p>
-                Earlier in the election period, you used this system to cast your vote for John Doe.
-              </p>
-              <p>
-                Now imagine that some time has passed. After having already voted, another person attempts to pressure you to vote for candidate Sofia Lee, without knowing that you have already voted.
+                A close family member is now standing next to you and pressuring you to log in to the online voting system and cast a vote for candidate Sofia Lee.
               </p>
               <div className="study-task-box">
                 <p className="study-task-heading">Your task</p>
                 <ul className="study-task-list">
-                  <li>You have already voted for <strong>John Doe</strong>.</li>
-                  <li>Someone is now pressuring you to vote for another candidate.</li>
-                  <li>
-                    <strong>Use the system's security feature to protect your original vote for John Doe.</strong>
-                  </li>
+                  <li>Follow the family member's instruction and go through the voting process for <strong>Sofia Lee</strong>.</li>
+                  <li>Use the system's built-in security feature so that this vote is <strong>not counted</strong> in the results.</li>
                 </ul>
               </div>
               <p>
-                Take your time and complete the process as you would in a real-life situation.
+                Complete the process as you would in a real situation.
               </p>
             </div>
           </div>
@@ -99,7 +93,7 @@ const StudyInfo3 = () => {
                 onClick={downloadInstructions}
                 className="study-button"
               >
-                Download
+                Download Instructions
               </button>
             </div>
           </div>
@@ -135,7 +129,7 @@ const StudyInfo3 = () => {
                       checked={selectedTaskOption === "protect-original-vote"}
                       onChange={handleTaskOptionChange}
                     />
-                    Protect your original vote for John Doe using the system's security feature.
+                    Follow the family member's instruction and vote for Sofia Lee, using the system's security feature so this vote is not counted in the results.
                   </label>
                   <label className="task-check-option">
                     <input
@@ -145,7 +139,7 @@ const StudyInfo3 = () => {
                       checked={selectedTaskOption === "update-vote-for-sofia-lee"}
                       onChange={handleTaskOptionChange}
                     />
-                    Update your vote for Sofia Lee.
+                    Cast a genuine vote for Sofia Lee so it counts in the results.
                   </label>
                   <label className="task-check-option">
                     <input
@@ -155,7 +149,7 @@ const StudyInfo3 = () => {
                       checked={selectedTaskOption === "follow-pressure"}
                       onChange={handleTaskOptionChange}
                     />
-                    Vote for the candidate the other person is pressuring you to vote for.
+                    Do what the family member asks without using any security feature.
                   </label>
                   <label
                     className="task-check-option task-check-option-hidden"

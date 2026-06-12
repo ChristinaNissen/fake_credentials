@@ -5,7 +5,7 @@ import "./Welcome.css";
 import votingIllustration800 from "../Assets/chair-800.jpg";
 import votingIllustration1200 from "../Assets/chair-1200.jpg";
 import overviewImg from "../Assets/VotingProcess_Overview.png";
-import { incrementPendingVideoInteraction } from "../util";
+import { incrementVideoInteractionCounter } from "../API/Voter";
 
 const infoData = [
 	{
@@ -37,14 +37,38 @@ const Welcome = () => {
 		window.scrollTo(0, 0);
 	}, []);
 
-	const handleLoadHowToVoteVideo = () => {
-		incrementPendingVideoInteraction("howToVote");
+	const handleLoadHowToVoteVideo = async () => {
+		try {
+			await incrementVideoInteractionCounter("howToVote");
+		} catch (error) {
+			console.error("Failed to increment how-to-vote video count:", error);
+		}
 		setIsHowToVoteVideoLoaded(true);
 	};
 
-	const handleLoadCoercionVideo = () => {
-		incrementPendingVideoInteraction("coercion");
+	const handleLoadCoercionVideo = async () => {
+		try {
+			await incrementVideoInteractionCounter("coercion");
+		} catch (error) {
+			console.error("Failed to increment coercion video count:", error);
+		}
 		setIsCoercionVideoLoaded(true);
+	};
+
+	const handleHowToVoteYoutubeClick = async () => {
+		try {
+			await incrementVideoInteractionCounter("howToVote");
+		} catch (error) {
+			console.error("Failed to increment how-to-vote YouTube click count:", error);
+		}
+	};
+
+	const handleCoercionYoutubeClick = async () => {
+		try {
+			await incrementVideoInteractionCounter("coercion");
+		} catch (error) {
+			console.error("Failed to increment coercion YouTube click count:", error);
+		}
 	};
 
 	return (
@@ -70,8 +94,8 @@ const Welcome = () => {
 					<section className="card" style={{ maxWidth: "800px", marginBottom: "36px" }}>
 					<div className="info-list">
 						<h2 className="before-vote-heading">How to vote online</h2>
-						<p className="welcome-process-intro">
-							The voting process consists of several steps. First, you will log in to the system with the credentials, you have received. You will then proceed to cast your vote for your preferred candidate. After your vote has been submitted, you will receive a confirmation for the ballot you have just cast.
+						<p className="welcome-process-description">
+							The voting process consists of several steps. First, you will log in to the system with the passwords you have received. You will then proceed to cast your vote for your preferred candidate. After your vote has been submitted, you will receive a confirmation for the ballot you have just cast.
 						</p>
 					<div className="info-item overview-image-container">
 						<img src={overviewImg} alt="Voting process overview" className="overview-image" />
@@ -79,7 +103,7 @@ const Welcome = () => {
 					<ul className="voting-steps-mobile">
 						<li>
 						<strong>Login</strong>
-							<div>Access the system with your credentials</div>
+							<div>Access the system with your passwords</div>
 						</li>
 						<li>
 						<strong>Voting</strong>
@@ -122,7 +146,7 @@ const Welcome = () => {
 						</div>
 						<p className="coercion-video-help">
 							If the video does not load, open it directly on
-							<a href="https://www.youtube.com/watch?v=QScTyJwVqG0" target="_blank" rel="noreferrer" onClick={() => incrementPendingVideoInteraction("howToVote")}> YouTube</a>.
+							<a href="https://www.youtube.com/watch?v=QScTyJwVqG0" target="_blank" rel="noreferrer" onClick={handleHowToVoteYoutubeClick}> YouTube</a>.
 						</p>
 					</div>
 					<details className="optional-video-accordion">
@@ -162,7 +186,7 @@ const Welcome = () => {
 								</div>
 								<p className="coercion-video-help">
 									If the video does not load, open it directly on
-									<a href="https://www.youtube.com/watch?v=h-zbqLmdkKI" target="_blank" rel="noreferrer" onClick={() => incrementPendingVideoInteraction("coercion")}> YouTube</a>.
+									<a href="https://www.youtube.com/watch?v=h-zbqLmdkKI" target="_blank" rel="noreferrer" onClick={handleCoercionYoutubeClick}> YouTube</a>.
 								</p>
 							</div>
 						</div>
@@ -186,7 +210,7 @@ const Welcome = () => {
 				<div className="login-button-container">
 					<button 
 						className="button welcome-button"
-						onClick={() => navigate("/login")}
+						onClick={() => navigate("/private-mode")}
 					>
 						Login
 					</button>

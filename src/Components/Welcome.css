@@ -171,6 +171,14 @@ section.card h2.before-vote-heading {
   font-size: 17.6px;
 }
 
+.welcome-process-description {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #000;
+  line-height: 1.6;
+  font-size: 17.6px;
+}
+
 .welcome-h2 {
   font-size: 2rem;
   font-weight: bold;
@@ -818,6 +826,11 @@ section.card h2.before-vote-heading, section.card h2.before-vote-heading * {
   margin-top: 0;
   margin-bottom: 0;
   color: #000;
+  line-height: 1.4;
+  font-size: 15.52px;
+}
+
+.welcome-process-description {
   line-height: 1.4;
   font-size: 15.52px;
 }

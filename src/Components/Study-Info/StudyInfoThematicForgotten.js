@@ -1,9 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { logoutVoter } from "../../API/Voter";
+import { getUserID, logoutVoter, setSessionEnd } from "../../API/Voter";
 import "./study-info.css";
 
 const StudyInfoThematicForgotten = () => {
+  const [userID, setUserID] = useState(null);
+  const [showCodeUnavailableMessage, setShowCodeUnavailableMessage] = useState(false);
+  const [showCopiedMessage, setShowCopiedMessage] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  useEffect(() => {
+    const fetchUserID = async () => {
+      const id = await getUserID();
+
+      if (id) {
+        setUserID(id);
+      } else {
+        setShowCodeUnavailableMessage(true);
+      }
+    };
+
+    fetchUserID();
+  }, []);
+
+  function copyIdToClipBoard() {
+    if (userID) {
+      navigator.clipboard.writeText(userID);
+      setShowCopiedMessage(true);
+      setTimeout(() => {
+        setShowCopiedMessage(false);
+      }, 3000);
+    }
+  }
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -25,38 +52,70 @@ const StudyInfoThematicForgotten = () => {
   return (
     <div className="study-center-bg">
       <div className="inner-box-info centered-info-page">
-        <h2 className="h2-info-pages">Thank you for contacting voter support</h2>
+        <h2 className="h2-info-pages">Please continue to the survey</h2>
 
         <p className="medium-body-text-info">
           You cannot remember your thematic password. This is not a problem.
+          You have acted correctly by contacting voter support instead of entering random inputs.
         </p>
 
         <p className="medium-body-text-info">
-          <strong>You have acted correctly</strong> by contacting voter support instead of entering random inputs that could reveal to an observer that you don't know your credentials.
+          You have finished using the online voting system.
         </p>
 
         <p className="medium-body-text-info">
-          You have successfully completed your interaction with the voting system.
+          To complete the study, please fill out a short survey.
         </p>
 
         <p className="medium-body-text-info">
-          Please continue to a short survey where you can share your experience.
+          We need to be able to connect your results from the voting system with
+          the survey. Therefore, you have to copy the number just below and
+          paste it into the survey as the very first thing, after you click the button
+          below. If no number appears, please proceed to the survey without it.
         </p>
+
+        <div className="study-field-row study-section-spacing">
+          <input
+            type="text"
+            readOnly
+            value={userID || ""}
+            className="input-field-code medium-body-text-info study-code-input"
+          />
+          <button
+            type="button"
+            className="copy-button"
+            onClick={copyIdToClipBoard}
+            aria-label="Copy code"
+            title="Copy code"
+          >
+            📋
+          </button>
+          {showCopiedMessage && (
+            <div className="copied-tooltip">
+              Successfully copied ✓
+            </div>
+          )}
+        </div>
+
+        {showCodeUnavailableMessage && (
+          <p className="medium-body-text-info study-subtle-spacing">
+            We could not retrieve your number. Please proceed to the survey without it.
+          </p>
+        )}
 
         <button
-          className="study-button"
-          style={{ marginTop: "2rem" }}
+          className="study-button study-section-spacing"
           onClick={() => setShowConfirmModal(true)}
         >
-          Continue to survey
+          Go to survey
         </button>
 
         {showConfirmModal && (
           <div className="study-modal-backdrop">
             <div className="study-modal study-info-confirm-modal">
-              <h2>Continue to survey</h2>
+              <h2>Important</h2>
               <p>
-                You will be redirected to the survey. Thank you for your participation in this study.
+                Once you proceed to the survey, you may not be able to return to retrieve your number. Please make sure you have copied it before continuing.
               </p>
               <div className="study-modal-actions">
                 <button
@@ -69,6 +128,7 @@ const StudyInfoThematicForgotten = () => {
                   className="study-button"
                   onClick={async () => {
                     setShowConfirmModal(false);
+                    await setSessionEnd();
                     await logoutVoter();
                     window.location.href =
                       "https://www.survey-xact.dk/LinkCollector?key=HZU52L1VLJ9K&condition=1.0&longvarnames=";

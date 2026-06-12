@@ -13,6 +13,10 @@
   max-width: 600px;
 }
 
+.study-narrow-content {
+  max-width: 35rem;
+}
+
 .study-center-content {
   border-radius: 16px;
   padding: 48px 36px;
@@ -47,6 +51,131 @@
   color: #f5f5f5;
   cursor: not-allowed;
   font-weight: bold;
+}
+
+.study-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 0.5px solid #888;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.study-input:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 1.5px #1976d2;
+}
+
+.study-error {
+  width: 80%;
+  box-sizing: border-box;
+  border: 1px solid #b42318;
+  background-color: #ffe6e6;
+  color: #7a271a;
+  padding: 10px 16px;
+  border-radius: 8px;
+  margin: 10px 0 0;
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: normal;
+}
+
+.study-field-label {
+  display: block;
+  margin: 1.5rem 0 0.75rem;
+  color: #000;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+.study-section-spacing {
+  margin-top: 2rem !important;
+}
+
+.study-subtle-spacing {
+  margin-top: 1rem;
+}
+
+.study-checkbox-section {
+  margin: 2rem 0;
+}
+
+.study-field-row {
+  width: 80%;
+  position: relative;
+}
+
+.study-text-input,
+.study-code-input {
+  width: 100%;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  box-sizing: border-box;
+}
+
+.study-text-input {
+  padding: 12px;
+  font-size: 1rem;
+}
+
+.study-text-input::placeholder {
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.study-code-input {
+  padding: 12px 3.5rem 12px 12px;
+}
+
+.copy-button {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 2.2rem;
+  width: 2.2rem;
+  border: none;
+  background: #1976d2;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.study-button-tight-spacing {
+  margin-top: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .study-list {
@@ -393,6 +522,15 @@
     word-break: break-all;
   }
 
+  .study-text-input,
+  .study-text-input {
+    font-size: 1rem !important;
+  }
+
+  .study-text-input::placeholder {
+    font-size: 0.95rem !important;
+  }
+
   .copy-button {
     height: 1.8rem !important;
     width: 1.8rem !important;
@@ -405,39 +543,18 @@
     font-size: 0.75rem !important;
   }
 
+  .study-field-row {
+    width: 100% !important;
+  }
+
+  .study-error {
+    width: 100%;
+  }
+
   .centered-info-page > div[style*="width: 80%"] {
     width: 100% !important;
   }
-}
 
-.study-credentials-box {
-  background: #f3f8ff;
-  border-left: 4px solid #1976d2;
-}
-
-.study-credential-row {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding: 6px 0;
-  border-bottom: 1px solid #dce8f8;
-}
-
-.study-credential-row:last-of-type {
-  border-bottom: none;
-}
-
-.study-credential-label {
-  font-weight: bold;
-  min-width: 160px;
-  color: #0d47a1;
-}
-
-.study-credential-value {
-  font-family: monospace;
-  font-size: 1.15rem;
-  letter-spacing: 0.04em;
-  color: #111;
 }
 
 /* Modal Styles */
@@ -456,8 +573,8 @@
 
 .study-modal {
   background: #e3f0ff;
-  border-radius: 8px;
-  padding: 18px 24px;
+  border-radius: 16px;
+  padding: 26px 28px;
   max-width: 700px;
   width: 100%;
   margin: 20px auto;
@@ -485,13 +602,14 @@
 }
 
 .study-modal p {
-  margin-bottom: 2rem;
+  margin-bottom: 2.25rem;
   font-size: 1.18rem;
+  line-height: 1.5;
 }
 
 .study-modal-actions {
   display: flex;
-  gap: 16px;
+  gap: 18px;
   justify-content: center;
 }
 
@@ -558,8 +676,103 @@
   color: #1976d2 !important;
   border-color: #1976d2 !important;
 }
+
+.study-modal .prolific-go-back-button {
+  background-color: #d6e8ff !important;
+  color: #1976d2 !important;
+  border: 2px solid #1976d2 !important;
+  padding: calc(0.7em - 2px) 2.5em;
+}
+
+.study-modal .prolific-go-back-button:hover {
+  background-color: #b8d4ff !important;
+  color: #0d47a1 !important;
+  border-color: #0d47a1 !important;
+}
+
+.study-modal .prolific-go-back-button:disabled {
+  background-color: #d6e8ff !important;
+  color: #7aa7de !important;
+  border-color: #7aa7de !important;
+  cursor: not-allowed;
+}
+
+/* Keep both Prolific ID modal action buttons exactly the same size */
+.prolific-id-confirm-modal .prolific-go-back-button,
+.prolific-id-confirm-modal .prolific-confirm-button {
+  min-width: 8rem;
+  height: 3.1rem;
+  font-size: 1.1rem !important;
+  line-height: 1;
+  padding: 0 2.5em;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prolific-id-confirm-modal .prolific-confirm-button {
+  border: 2px solid transparent;
+}
+
+.prolific-id-confirm-modal .prolific-go-back-button {
+  border: 2px solid #1976d2 !important;
+}
+
+.prolific-id-confirm-modal {
+  max-width: 38rem;
+}
+
+.prolific-id-confirm-modal p {
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 600px) {
+  .study-modal-backdrop {
+    padding: 16px;
+    align-items: center;
+  }
+
+  .study-modal {
+    width: min(100%, 32rem);
+    max-width: 100%;
+    margin: 0;
+    padding: 24px 18px;
+    border-radius: 14px;
+  }
+
+  .study-modal p {
+    font-size: 1rem;
+    margin-bottom: 1.6rem;
+  }
+
+  .study-modal-actions {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .study-modal .study-button,
+  .study-modal .study-button-secondary,
+  .prolific-id-confirm-modal .prolific-go-back-button,
+  .prolific-id-confirm-modal .prolific-confirm-button {
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 3.25rem;
+    margin: 0;
+    padding: 0.85rem 1rem;
+    font-size: 1rem !important;
+    line-height: 1.2;
+  }
+
+  .prolific-id-confirm-modal p {
+    text-align: left;
+  }
+}
 .study-credentials-box {
   margin-top: 12px;
+  background: #f3f8ff;
+  border-left: 4px solid #1976d2;
 }
 
 .study-credential-row {
@@ -591,4 +804,36 @@
   letter-spacing: 0.05em;
   color: #1a237e;
   font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .study-credentials-box {
+    margin-top: 0.75rem;
+    padding: 0.95rem 1rem;
+    border-left-width: 3px;
+  }
+
+  .study-credential-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+    padding: 0.75rem 0;
+  }
+
+  .study-credential-label {
+    min-width: 0;
+    font-size: 0.95rem;
+    color: #222;
+  }
+
+  .study-credential-value {
+    display: inline-block;
+    max-width: 100%;
+    font-size: 1rem;
+    line-height: 1.3;
+    padding: 0.45rem 0.7rem;
+    letter-spacing: 0.03em;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
 }

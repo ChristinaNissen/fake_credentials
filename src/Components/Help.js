@@ -55,7 +55,7 @@ const helpSections = [
               To vote online, follow the on-screen instructions. The process consists of the following steps:
             </p>
             <ol className="list-decimal pl-6 space-y-1">
-              <li>Login to the voting system by entering your credentials that consist of a regular password and a thematic password.
+              <li>Login to the voting system by entering your regular password and thematic password.
                   For security reasons, you should not save your thematic password, as the system is designed so that no proof of your vote can be created.
               </li>
               <li>
@@ -132,9 +132,11 @@ const helpSections = [
             </p>
             <ul className="list-disc pl-6 space-y-1">
               <li>
-                <strong>Use a fake thematic password:</strong> When logging in under pressure, enter your regular password as normal, but replace your thematic password with a different word from the same theme — for example, "purple" instead of "blue" if your theme is colours. The system will silently register the coercion and discard the vote. No error message will appear and the login will look completely successful, so you can cast the vote as instructed.
-                <br /><br />
-                <span style={{ color: "#b91c1c" }}><strong>⚠ Important:</strong></span> The fake password <strong>must</strong> belong to the correct theme. Do not write it down or save it anywhere — if someone can find it later, it can weaken the protection against coercion. Entering a word outside the theme will trigger a visible error message, which could alert the coercer that you are trying to deceive them.
+                <strong>Use another word from the same theme:</strong> Enter your regular password as normal, but replace your thematic password with another word from the same theme. For example, "purple" instead of "blue" if your theme is colours. The system will silently register the coercion and discard the vote. No error message will appear and the login will look completely successful, so you can cast the vote as instructed.
+
+                <div className="coercion-important-note">
+                  <strong>Important:</strong> Do not write the thematic password down or save it anywhere, as it can weaken the protection against coercion. If you enter a word outside the theme, a visible error message will appear and may alert the coercer that you are trying to deceive them.
+                </div>
               </li>
               <li>
                 <strong>Vote again later in private:</strong> Once you are alone, log in using your true regular and thematic passwords to cast your real vote.
@@ -144,7 +146,7 @@ const helpSections = [
               </li>
             </ul>
             <p className="mt-2 font-medium">
-              If you are in immediate danger, contact the authorities at the emergency number 112.
+              If you are in immediate danger, contact the authorities at the emergency number.
             </p>
           </div>
         ),
@@ -173,8 +175,10 @@ const helpSections = [
       title: "Protection of your voting privacy",
       content: (
         <div className="space-y-2">
+          <p>
               Votes are encrypted before being sent over the network, preventing
               anyone from seeing your selection.
+          </p>
           <p>
             Keep in mind that privacy cannot be guaranteed if someone is physically
             watching your screen or if your device is compromised by malware.
@@ -266,7 +270,7 @@ const Help = () => {
 						))}
 					</div>
 				</div>
-				<button className="button" onClick={() => window.history.back()} style={{ marginTop: "40px" }}>
+				<button className="button help-return-button" onClick={() => window.history.back()}>
         Return
       </button>
 			</main>

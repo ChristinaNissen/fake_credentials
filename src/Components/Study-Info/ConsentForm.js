@@ -23,7 +23,7 @@ const ConsentForm = () => {
 
   return (
     <div className="study-center-bg">
-      <div className="inner-box-info padding-top-info-page" style={{ maxWidth: "35rem" }}>
+      <div className="inner-box-info padding-top-info-page study-narrow-content">
         <h1 className="h1-info-pages">Welcome to our study!</h1>
         <p>
           The purpose of this study is to investigate user experience in an online voting system intended for general elections. Before proceeding, we ask for your consent.
@@ -185,7 +185,7 @@ The voting system you are testing is designed to help prevent coercion in online
           please contact one of the students involved in the project (see
           contact details above).
         </p>
-        <div className="checkbox-container" style={{ margin: "2rem 0" }}>
+        <div className="checkbox-container study-checkbox-section">
           <label className="check-box">
             <input
               type="checkbox"

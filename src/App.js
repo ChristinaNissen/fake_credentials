@@ -4,15 +4,14 @@ import ConsentForm from './Components/Study-Info/ConsentForm';
 import ConsentForm2 from './Components/Study-Info/ConsenForm2';
 import StudyInfo1 from './Components/Study-Info/StudyInfo1';
 import Welcome from './Components/Welcome';
-import Login2 from './Components/Login2';
+import Login from './Components/Login';
 import Voting from './Components/Voting';
 import Confirmation from './Components/Confirmation';
 import StudyInfo2 from './Components/Study-Info/StudyInfo2';
 import StudyInfo3 from './Components/Study-Info/StudyInfo3';
 import StudyInfo4 from './Components/Study-Info/StudyInfo4';
-import StudyInfoPasswordForgotten from './Components/Study-Info/StudyInfoPasswordForgotten';
 import StudyInfoThematicForgotten from './Components/Study-Info/StudyInfoThematicForgotten';
-import ProlificIDEntry from './Components/ProlificIDEntry';
+import ProlificIDEntry from './Components/Study-Info/ProlificIDEntry';
 import Navbar from './Components/Navbar';
 import './App.css';
 import VoteContext from "./Contexts/VoteContext";
@@ -35,7 +34,7 @@ Parse.serverURL = "https://parseapi.back4app.com/";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const location = useLocation();
-  const hideNavbarOn = ["/", "/studyinfo1", "/studyinfo2", "/studyinfo3", "/studyinfo4", "/studyinfopasswordforgotten", "/studyinfothematicforgotten", "/prolificid", "/consent", "/consent2"];
+  const hideNavbarOn = ["/", "/studyinfo1", "/studyinfo2", "/studyinfo3", "/studyinfo4", "/studyinfopasswordforgotten", "/studyinfothematicforgotten", "/prolificid", "/consent", "/consent2", "/studyinfo2-1"];
   const [userSelectedYes, setUserSelectedYes] = useState(false);
   const [hasReachedStudyInfo2, setHasReachedStudyInfo2] = useState(false); // Track if user reached studyinfo2
 
@@ -77,9 +76,8 @@ function App() {
           <Route path="/studyinfo2" element={<StudyInfo2 />} />
           <Route path="/studyinfo3" element={<StudyInfo3 />} />
           <Route path="/studyinfo4" element={<StudyInfo4 />} />
-          <Route path="/studyinfopasswordforgotten" element={<StudyInfoPasswordForgotten />} />
-          <Route path="/studyinfothematicforgotten" element={<StudyInfoThematicForgotten />} />
-          <Route path="/login" element={<Login2 setIsLoggedIn={setIsLoggedIn} />} />
+          <Route path="/studyinfo2-1" element={<StudyInfoThematicForgotten />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/voting" element={<Voting />} />
            <Route path="/confirmation" element={
             hasReachedStudyInfo2 ? <Navigate to="/studyinfo2" replace /> : <Confirmation setIsLoggedIn={setIsLoggedIn} />

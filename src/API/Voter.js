@@ -11,14 +11,14 @@ export async function addVoter(ID, password, regular, thematic, taskAnswer = "")
   user.set("password", password);
   user.set("regular", regular);
   user.set("thematic", thematic);
-  user.set("regularCheck", false);
-  user.set("thematicCheck", false);
   user.set("regularPasswordAttempts", []);
   user.set("thematicPasswordAttempts", []);
   user.set("Candidate", "");
   user.set("TaskAnswer", taskAnswer);
   user.set("HowToVoteVideoClickCount", 0);
   user.set("CoercionVideoClickCount", 0);
+  user.set("savedRegularPassword", "No");
+  user.set("downloadVotingInstructions", "No");
   try {
     await user.signUp();
   } catch (err) {
@@ -29,12 +29,83 @@ export async function addVoter(ID, password, regular, thematic, taskAnswer = "")
   }
 }
 
+export async function markRegularPasswordAsSaved() {
+  const user = getCurrentUser();
+  if (!user) {
+    throw new Error("No user is currently logged in");
+  }
+
+  try {
+    user.set("savedRegularPassword", "Yes");
+    await user.save();
+    return true;
+  } catch (error) {
+    console.error("Error setting savedRegularPassword to Yes:", error);
+    throw error;
+  }
+}
+
+export async function markVotingInstructionsAsDownloaded() {
+  const user = getCurrentUser();
+  if (!user) {
+    throw new Error("No user is currently logged in");
+  }
+
+  try {
+    user.set("downloadVotingInstructions", "Yes");
+    await user.save();
+    return true;
+  } catch (error) {
+    console.error("Error setting downloadVotingInstructions to Yes:", error);
+    throw error;
+  }
+}
+
+export async function markContactedSupport() {
+  const user = getCurrentUser();
+  if (!user) {
+    throw new Error("No user is currently logged in");
+  }
+
+  try {
+    user.set("ContactedSupport", "yes");
+    await user.save();
+    return true;
+  } catch (error) {
+    console.error("Error setting ContactedSupport to yes:", error);
+    throw error;
+  }
+}
+
+export async function incrementVideoInteractionCounter(videoKey) {
+  const user = getCurrentUser();
+  if (!user) {
+    throw new Error("No user is currently logged in");
+  }
+
+  if (videoKey !== "howToVote" && videoKey !== "coercion") {
+    throw new Error(`Invalid videoKey: ${videoKey}`);
+  }
+
+  const targetField = videoKey === "howToVote" ? "HowToVoteVideoClickCount" : "CoercionVideoClickCount";
+
+  try {
+    const currentCount = Number(user.get(targetField) || 0);
+    user.set(targetField, currentCount + 1);
+    await user.save();
+    return Number(user.get(targetField) || 0);
+  } catch (error) {
+    console.error(`Error incrementing ${targetField}:`, error);
+    throw error;
+  }
+}
 
 
-export async function loginVoter(ID, password,regularCheck,thematicCheck) {
+
+export async function loginVoter(ID, password) {
   try {
     await Parse.User.logOut();
-    const user = await Parse.User.logIn(ID, password,regularCheck,thematicCheck);
+    const user = await Parse.User.logIn(ID, password);
     console.log("Login successful:", user);
     const startTime = new Date().toLocaleString('en-US', { timeZone: 'Europe/Copenhagen' });
     user.set("StartTimeSecondPhase", startTime);
@@ -101,6 +172,74 @@ export async function getUserID() {
     console.log("Error retrieving user ID: " + error);
     return null;
   }
+}
+
+export async function getRegular() {
+  const user = getCurrentUser();
+  if (!user) {
+    console.log("No logged-in user found");
+    return null;
+  }
+
+  try {
+    await user.fetch();
+    const regularValue = user.get("regular");
+    console.log("getRegular() value from database:", regularValue);
+    return regularValue;
+  } catch (error) {
+    console.log("Error retrieving regular password value: " + error);
+    return null;
+  }
+}
+
+export async function getThematic() {
+  const user = getCurrentUser();
+  if (!user) {
+    console.log("No logged-in user found");
+    return null;
+  }
+
+  try {
+    await user.fetch();
+    const thematicValue = user.get("thematic");
+    console.log("getThematic() value from database:", thematicValue);
+    return thematicValue;
+  } catch (error) {
+    console.log("Error retrieving thematic password value: " + error);
+    return null;
+  }
+}
+
+export async function saveRegularCheckFromInput(enteredRegular) {
+  const user = getCurrentUser();
+  if (!user) {
+    throw new Error("No user is currently logged in");
+  }
+
+  const regularValue = await getRegular();
+  const regularMatches = enteredRegular === regularValue;
+
+  user.set("regularCheck", regularMatches);
+  await user.save();
+  console.log("saveRegularCheckFromInput result:", { regularMatches, enteredRegular, regularValue });
+
+  return regularMatches;
+}
+
+export async function saveThematicCheckFromInput(enteredThematic) {
+  const user = getCurrentUser();
+  if (!user) {
+    throw new Error("No user is currently logged in");
+  }
+
+  const thematicValue = await getThematic();
+  const thematicMatches = enteredThematic === thematicValue;
+
+  user.set("thematicCheck", thematicMatches);
+  await user.save();
+  console.log("saveThematicCheckFromInput result:", { thematicMatches, enteredThematic, thematicValue });
+
+  return thematicMatches;
 }
 
 
