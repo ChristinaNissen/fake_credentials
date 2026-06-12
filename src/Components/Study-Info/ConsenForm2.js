@@ -17,7 +17,7 @@ const ConsentForm2 = () => {
     setIsSubmitting(true);
     // Simulate async action, then navigate
     setTimeout(() => {
-      navigate('/studyinfo3');
+      navigate('/prolificid');
     }, 500);
   };
 
