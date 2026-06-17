@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Footer from "./Footer.js";
 import "./Login.css";
 import "./Voting-system.css";
@@ -28,8 +28,11 @@ const Login = ({ setIsLoggedIn }) => {
   const [regularPasswordError, setRegularPasswordError] = useState("");
   const [thematicPasswordError, setThematicPasswordError] = useState("");
   const [showRegularPasswordModal, setShowRegularPasswordModal] = useState(false);
+  const [showThematicWarningModal, setShowThematicWarningModal] = useState(false);
+  const [hasAcknowledgedThematicWarning, setHasAcknowledgedThematicWarning] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [regularPasswordAttempts, setRegularPasswordAttempts] = useState(0);
+  const thematicPasswordInputRef = useRef(null);
   const navigate = useNavigate();
   const checkAndSaveRegularPassword = async (enteredRegular) => {
     try {
@@ -121,6 +124,12 @@ const handleStep2Submit = async (e) => {
   setIsLoading(true);
   setThematicPasswordError("");
 
+  if (!hasAcknowledgedThematicWarning) {
+    setShowThematicWarningModal(true);
+    setIsLoading(false);
+    return;
+  }
+
   if (!thematicPassword.trim()) {
     setThematicPasswordError("Please enter your thematic password");
     setIsLoading(false);
@@ -180,6 +189,24 @@ const handleStep2Submit = async (e) => {
     }
 
     navigate("/studyinfothematicforgotten");
+  };
+
+  const handleThematicPasswordFocus = (event) => {
+    if (hasAcknowledgedThematicWarning) {
+      return;
+    }
+
+    setShowThematicWarningModal(true);
+    event.target.blur();
+  };
+
+  const handleThematicWarningContinue = () => {
+    setHasAcknowledgedThematicWarning(true);
+    setShowThematicWarningModal(false);
+
+    if (thematicPasswordInputRef.current) {
+      thematicPasswordInputRef.current.focus();
+    }
   };
 
   return (
@@ -264,17 +291,6 @@ const handleStep2Submit = async (e) => {
             </div>
           </details>
 
-          <div className="login-auth-warning">
-            <strong>Important:</strong> If you cannot remember your thematic password, do not enter random values. Please{" "}
-            <span
-              onClick={handleContactSupportClick}
-              className="login-auth-warning-link"
-            >
-              contact voter support
-            </span>
-            {" "}or vote in person at your local polling station.
-          </div>
-
           <hr className="login-section-divider" />
 
           <form
@@ -312,13 +328,21 @@ const handleStep2Submit = async (e) => {
                 <label htmlFor="thematicPassword">Thematic password</label>
                 <div className="password-input-wrapper">
                   <input
+                    ref={thematicPasswordInputRef}
                     id="thematicPassword"
                     className="login-input"
                     type="text"
                     value={thematicPassword}
-                    onChange={(e) => setThematicPassword(e.target.value)}
+                    onChange={(e) => {
+                      if (!hasAcknowledgedThematicWarning) {
+                        return;
+                      }
+                      setThematicPassword(e.target.value);
+                    }}
+                    onFocus={handleThematicPasswordFocus}
                     placeholder="Enter thematic password"
                     autoComplete="current-password"
+                    readOnly={!hasAcknowledgedThematicWarning}
                   />
                 </div>
                 {thematicPasswordError && <div className="login-error login-error-thematic">{thematicPasswordError}</div>}
@@ -357,6 +381,40 @@ const handleStep2Submit = async (e) => {
                   onClick={handleContinueToThematicStep}
                 >
                   Continue
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showThematicWarningModal && (
+          <div className="modal-backdrop-confirmation">
+            <div className="modal-confirmation">
+              <p className="modal-confirmation-title">Important!</p>
+              <p>
+                If you cannot remember your thematic password, do not enter random values. <br />Please{" "}
+                <span
+                  onClick={handleContactSupportClick}
+                  className="login-auth-warning-link"
+                >
+                  contact voter support
+                </span>
+                {" "}or vote in person at your local polling station.
+              </p>
+              <div className="modal-confirmation-actions">
+                <button
+                  type="button"
+                  className="button"
+                  onClick={handleThematicWarningContinue}
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  className="button"
+                  onClick={() => setShowThematicWarningModal(false)}
+                >
+                  Cancel
                 </button>
               </div>
             </div>
