@@ -95,15 +95,15 @@ const Welcome = () => {
 					<div className="info-list">
 						<h2 className="before-vote-heading">How to vote online</h2>
 						<p className="welcome-process-description">
-							The voting process consists of several steps. First, you will log in to the system with the passwords you have received. You will then proceed to cast your vote for your preferred candidate. After your vote has been submitted, you will receive a confirmation for the ballot you have just cast.
+							The voting process consists of several steps. First, you will log in to the system with the passwords you have received. The password consists of a regular password and a thematic password. The thematic password is designed to protect you against coercion. You will then proceed to cast your vote for your preferred candidate. After your vote has been submitted, you will receive a confirmation for the ballot you have just cast.
 						</p>
-					<div className="info-item overview-image-container">
-						<img src={overviewImg} alt="Voting process overview" className="overview-image" />
-					</div>
+							<div className="info-item overview-image-container">
+								<img src={overviewImg} alt="Voting process overview" className="overview-image" />
+							</div>
 					<ul className="voting-steps-mobile">
 						<li>
 						<strong>Login</strong>
-							<div>Access the system with your passwords</div>
+							<div>Access the system with your passwords that consist of a regular password and a thematic password.</div>
 						</li>
 						<li>
 						<strong>Voting</strong>
@@ -114,6 +114,36 @@ const Welcome = () => {
 							<div>Confirmation of your vote</div>
 						</li>
 					</ul>
+					<div className="welcome-flowchart-inline">
+						<h3 className="welcome-flowchart-title">How does the login process work</h3>
+						<p className="welcome-flowchart-intro">
+							You receive a regular password and a thematic password. Start with your regular password. Then enter your thematic password based on whether you are safe or being coerced.
+						</p>
+						<div className="welcome-login-process" aria-label="Login process for normal voting and voting under coercion">
+							<div className="welcome-login-steps-inline" aria-label="Two-step login sequence">
+								<div className="welcome-login-step-inline">
+									<span className="welcome-login-step-number">1</span>
+									<span className="welcome-login-step-inline-text">Enter regular password</span>
+								</div>
+								<span className="welcome-login-step-divider" aria-hidden="true">→</span>
+								<div className="welcome-login-step-inline">
+									<span className="welcome-login-step-number">2</span>
+									<span className="welcome-login-step-inline-text">Enter thematic password</span>
+								</div>
+							</div>
+
+							<div className="welcome-login-outcomes" aria-label="Outcomes for safe and pressured scenarios">
+								<div className="welcome-login-outcome-row welcome-login-outcome-safe">
+									<div className="welcome-login-outcome-title">Safe environment:</div>
+									<div className="welcome-login-outcome-text">Use your true thematic password. Login is successful and your vote is counted.</div>
+								</div>
+								<div className="welcome-login-outcome-row welcome-login-outcome-coerced">
+									<div className="welcome-login-outcome-title">Under coercion:</div>
+									<div className="welcome-login-outcome-text">Use another word from the same theme. Login appears successful, but that vote is not counted.</div>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div className="coercion-video-block">
 						<h3 className="coercion-video-title">How to vote online</h3>
 						<div className="coercion-video-frame">

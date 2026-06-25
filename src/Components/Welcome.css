@@ -65,7 +65,7 @@
 }
 
 .before-vote-heading {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   padding-left: 0;
   text-align: left !important;
   font-size: 2rem;
@@ -173,10 +173,361 @@ section.card h2.before-vote-heading {
 
 .welcome-process-description {
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 12px;
   color: #000;
   line-height: 1.6;
   font-size: 17.6px;
+}
+
+.welcome-flowchart-inline {
+  margin-top: 8px;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.welcome-flowchart-title {
+  margin: 0 0 10px 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #000;
+  letter-spacing: 0;
+}
+
+.welcome-flowchart-intro {
+  margin-top: 0;
+  margin-bottom: 12px;
+  color: #000;
+  line-height: 1.6;
+  font-size: 17.6px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  border-left: 0;
+}
+
+.welcome-login-process {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.welcome-login-steps-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #eceff3;
+}
+
+.welcome-login-step-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.welcome-login-step-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid #e3b800;
+  background: #fff8cf;
+  color: #111;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.welcome-login-step-inline-text {
+  font-size: 17.6px;
+  line-height: 1.6;
+  color: #000;
+  font-weight: 400;
+}
+
+.welcome-login-step-divider {
+  color: #9aa3af;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.welcome-login-outcomes {
+  display: grid;
+  gap: 8px;
+}
+
+.welcome-login-outcome-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.welcome-login-outcome-safe {
+  background: #edf8f1;
+  border-color: #cae8d4;
+}
+
+.welcome-login-outcome-coerced {
+  background: #fff6ea;
+  border-color: #f2d8af;
+}
+
+.welcome-login-outcome-title {
+  font-size: 17.6px;
+  font-weight: 700;
+  color: #000;
+}
+
+.welcome-login-outcome-text {
+  color: #000;
+  font-size: 17.6px;
+  line-height: 1.6;
+}
+
+.welcome-flowchart {
+  margin: 28px 0 0 0;
+  padding: 0;
+}
+
+.welcome-flowchart-grid-vertical {
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: start;
+  position: relative;
+  padding-top: 32px;
+}
+
+.welcome-flowchart-grid-vertical::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background: #d8dce1;
+}
+
+.welcome-flowchart-grid-vertical::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 12%;
+  width: 76%;
+  height: 2px;
+  background: #d8dce1;
+}
+
+.welcome-flowchart-branch-no,
+.welcome-flowchart-branch-yes {
+  position: relative;
+}
+
+.welcome-flowchart-branch-no::before,
+.welcome-flowchart-branch-yes::before {
+  content: "";
+}
+
+.welcome-flowchart-branch-no::after,
+.welcome-flowchart-branch-yes::after {
+  content: "";
+}
+
+.welcome-flowchart-step {
+  position: relative;
+  width: 100%;
+  min-height: 68px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1.5px solid #e8e8e8;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.5;
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: #1f1f1f;
+  box-shadow: none;
+  transition: all 0.2s ease;
+}
+
+.welcome-flowchart-step:hover {
+  border-color: #d0d0d0;
+}
+
+.welcome-flowchart-step:not(.welcome-flowchart-step-final)::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 12px;
+  background: #d8dce1;
+}
+
+.welcome-flowchart-step:not(.welcome-flowchart-step-final)::before {
+  content: "";
+}
+
+.welcome-flowchart-step-final {
+  min-height: 92px;
+}
+
+.welcome-flowchart-step-success {
+  background: #f5fdf9;
+  border-color: #a8d4ba;
+  border: 1.5px solid #a8d4ba;
+  color: #0b5f3d;
+}
+
+.welcome-flowchart-step-success span {
+  color: #0b8e46;
+  font-weight: bold;
+}
+
+.welcome-flowchart-step-coercion {
+  background: #fffbf5;
+  border-color: #f0c98f;
+  border: 1.5px solid #f0c98f;
+  color: #7d4600;
+}
+
+.welcome-flowchart-step-coercion span {
+  color: #c97000;
+  font-weight: bold;
+}
+
+.welcome-flowchart-step-note {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  font-weight: 500;
+  color: #666;
+}
+
+.welcome-flowchart-question {
+  position: relative;
+  margin: 0 auto 40px auto;
+  width: fit-content;
+  max-width: 100%;
+  padding: 12px 32px;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111;
+  font-weight: 700;
+  font-size: 1.08rem;
+  text-align: center;
+  border: 2.5px solid #ffd600;
+  box-shadow: none;
+  letter-spacing: -0.3px;
+}
+
+.welcome-flowchart-question::after {
+  content: "";
+}
+
+.welcome-flowchart-question::before {
+  content: "";
+}
+
+.welcome-flowchart-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding-top: 32px;
+}
+
+.welcome-flowchart-grid::before {
+  content: "";
+}
+
+.welcome-flowchart-grid::after {
+  content: "";
+}
+
+.welcome-flowchart-branch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 0;
+  width: 100%;
+}
+
+.welcome-flowchart-branch::before {
+  content: "";
+}
+
+.welcome-flowchart-branch-label {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 2.5px solid #ffd600;
+  font-weight: 700;
+  color: #111;
+  font-size: 1rem;
+  box-shadow: none;
+  letter-spacing: -0.2px;
+}
+
+.welcome-flowchart-branch-label::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 12px;
+  background: #d8dce1;
+}
+
+.welcome-flowchart-card,
+.welcome-flowchart-result {
+  width: 100%;
+  min-height: 72px;
+  border-radius: 16px;
+  padding: 18px 18px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.45;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.welcome-flowchart-card-normal,
+.welcome-flowchart-result-normal {
+  background: #f3faf5;
+  border: 1px solid #cae8d4;
+}
+
+.welcome-flowchart-card-coercion,
+.welcome-flowchart-result-coercion {
+  background: #fff8ef;
+  border: 1px solid #f2d8af;
 }
 
 .welcome-h2 {
@@ -317,7 +668,7 @@ section.card:hover {
   overflow: hidden;
   border-radius: 12px;
   width: 100%;
-  margin: 0 0 14px 0 !important;
+  margin: 0 0 8px 0 !important;
 }
 
 .overview-image {
@@ -332,6 +683,10 @@ section.card:hover {
 
 .coercion-video-block {
   margin: 0 0 18px 0;
+}
+
+.welcome-flowchart-inline + .coercion-video-block {
+  margin-top: 36px;
 }
 
 .coercion-video-title {
@@ -550,11 +905,6 @@ section.card:hover {
     border-radius: 6px;
   }
   
-  /* Hide overview image on mobile */
-  .overview-image-container {
-    display: none;
-  }
-
   .welcome-process-intro {
     padding: 0;
     border-radius: 0;
@@ -564,6 +914,122 @@ section.card:hover {
 
   .welcome-process-intro-lead {
     font-size: 1rem;
+  }
+
+  .welcome-flowchart-inline {
+    margin-top: 6px;
+    padding-top: 0;
+  }
+
+  .welcome-flowchart-inline + .coercion-video-block {
+    margin-top: 26px;
+  }
+
+  .welcome-flowchart {
+    margin-top: 16px;
+  }
+
+  .welcome-flowchart-title {
+    font-size: 1rem;
+  }
+
+  .welcome-flowchart-intro {
+    font-size: 15.52px;
+    line-height: 1.4;
+    padding: 0;
+    margin-bottom: 10px;
+  }
+
+  .welcome-login-steps-inline {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .welcome-login-step-inline {
+    gap: 8px;
+  }
+
+  .welcome-login-step-divider {
+    align-self: center;
+    transform: rotate(90deg);
+  }
+
+  .welcome-login-outcome-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 10px;
+  }
+
+  .welcome-login-step-inline-text,
+  .welcome-login-outcome-title,
+  .welcome-login-outcome-text {
+    font-size: 15.52px;
+    line-height: 1.4;
+  }
+
+  .welcome-flowchart-grid-vertical {
+    gap: 16px;
+  }
+
+  .welcome-flowchart-question {
+    margin-bottom: 24px;
+    font-size: 0.98rem;
+    padding: 10px 22px;
+  }
+
+  .welcome-flowchart-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding-top: 0;
+  }
+
+  .welcome-flowchart-grid::before,
+  .welcome-flowchart-grid::after {
+    content: none;
+  }
+
+  .welcome-flowchart-grid-vertical::before,
+  .welcome-flowchart-grid-vertical::after {
+    content: none;
+  }
+
+  .welcome-flowchart-branch::before {
+    content: "";
+  }
+
+  .welcome-flowchart-step {
+    min-height: 64px;
+    padding: 14px 14px;
+    font-size: 0.95rem;
+  }
+
+  .welcome-flowchart-step-final {
+    min-height: 88px;
+  }
+
+  .welcome-flowchart-step:not(.welcome-flowchart-step-final)::after {
+    content: none;
+  }
+
+  .welcome-flowchart-branch-label {
+    margin-top: 0;
+  }
+
+  .welcome-flowchart-branch-label::after {
+    content: none;
+  }
+
+  .welcome-flowchart-branch-label::before {
+    content: none;
+  }
+
+  .welcome-flowchart-card,
+  .welcome-flowchart-result {
+    min-height: 0;
+    padding: 16px 16px;
+    font-size: 0.95rem;
   }
   
   /* Show text steps on mobile */

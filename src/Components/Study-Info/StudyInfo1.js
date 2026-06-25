@@ -6,7 +6,7 @@ import { downloadFile } from "../../util";
 import getCurrentUser, { markRegularPasswordAsSaved, markVotingInstructionsAsDownloaded } from "../../API/Voter.js";
 
 const VALID_COLOURS = [
-  "red", "blue", "green", "yellow", "orange", "purple", "pink", "black",
+  "red", "green", "yellow", "orange", "purple", "pink", "black",
   "white", "grey", "gray", "brown", "violet", "indigo", "cyan", "magenta",
   "turquoise", "teal", "gold", "silver", "beige", "ivory", "coral", "salmon",
   "maroon", "navy", "olive", "lime", "aqua", "fuchsia", "crimson", "lavender",
@@ -214,7 +214,7 @@ const StudyInfo1 = () => {
                 </div>
               </div>
               <p>
-                We highly recommend that you save your regular password. For security reasons, please do not store the thematic password.
+                We highly recommend that you save your <strong>regular password</strong>. For security reasons, please do not store the <strong>thematic password</strong>.
               </p>
               <button
                 type="button"
@@ -263,8 +263,8 @@ const StudyInfo1 = () => {
                     <input
                       type="radio"
                       name="task-check"
-                      value="update-vote"
-                      checked={selectedTaskOption === "update-vote"}
+                      value="vote-sofia-lee"
+                      checked={selectedTaskOption === "vote-sofia-lee"}
                       onChange={handleTaskOptionChange}
                     />
                     Cast your vote for Sofia Lee.

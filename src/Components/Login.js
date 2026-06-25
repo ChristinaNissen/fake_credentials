@@ -188,7 +188,7 @@ const handleStep2Submit = async (e) => {
       console.error("Failed to mark ContactedSupport:", error);
     }
 
-    navigate("/studyinfothematicforgotten");
+    navigate("/studyinfo2-1");
   };
 
   const handleThematicPasswordFocus = (event) => {
@@ -203,10 +203,6 @@ const handleStep2Submit = async (e) => {
   const handleThematicWarningContinue = () => {
     setHasAcknowledgedThematicWarning(true);
     setShowThematicWarningModal(false);
-
-    if (thematicPasswordInputRef.current) {
-      thematicPasswordInputRef.current.focus();
-    }
   };
 
   return (
@@ -229,7 +225,6 @@ const handleStep2Submit = async (e) => {
           <div className="login-auth-info-intro">
             The thematic password is designed to protect voters against coercion. If someone forces you to vote for a specific candidate, you can enter another word from the same theme, and the login will appear successful but the vote will not be counted in the results.
           </div>
-
           <details className="login-auth-scenarios-accordion">
             <summary className="login-auth-scenarios-summary">
               <span>How does the thematic password work?</span>
@@ -237,8 +232,7 @@ const handleStep2Submit = async (e) => {
             </summary>
             <div className="login-auth-scenarios-content">
               <p className="login-auth-scenarios-intro">
-                These examples illustrate how the thematic password works for login when the category is colours.
-              </p>
+These examples show how the thematic password works when the category is colours and the thematic password is blue.              </p>
               <div className="login-input-scenarios-grid">
                 <div className="login-input-scenario-card scenario-success">
                   <div className="login-input-scenario-meta">
@@ -268,7 +262,7 @@ const handleStep2Submit = async (e) => {
                   </div>
                   <div className="login-input-scenario-result login-result-panel result-coercion">
                     <div className="login-result-title">Login appears successful</div>
-                    <div className="login-result-text">Your vote will not count in the final results.</div>
+                    <div className="login-result-text">Your vote will not count in the final results. The coercer cannot tell the difference from a successful login.</div>
                   </div>
                 </div>
 
@@ -314,7 +308,6 @@ const handleStep2Submit = async (e) => {
               <span
                 className="password-toggle"
                 onClick={() => setShowPassword(v => !v)}
-                tabIndex={0}
                 role="button"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
@@ -390,32 +383,25 @@ const handleStep2Submit = async (e) => {
         {showThematicWarningModal && (
           <div className="modal-backdrop-confirmation">
             <div className="modal-confirmation">
-              <p className="modal-confirmation-title">Important!</p>
+              <p className="modal-confirmation-title">Important</p>
               <p>
-                If you cannot remember your thematic password, do not enter random values. <br />Please{" "}
+                If you cannot remember your thematic password, please{" "}
                 <span
                   onClick={handleContactSupportClick}
                   className="login-auth-warning-link"
                 >
                   contact voter support
                 </span>
-                {" "}or vote in person at your local polling station.
+                . <br></br>If that is not possible, vote in person at your local polling station.
               </p>
               <div className="modal-confirmation-actions">
-                <button
-                  type="button"
-                  className="button"
-                  onClick={handleThematicWarningContinue}
-                >
-                  Yes
-                </button>
-                <button
-                  type="button"
-                  className="button"
-                  onClick={() => setShowThematicWarningModal(false)}
-                >
-                  Cancel
-                </button>
+                      <button
+                        type="button"
+                        className="button"
+                        onClick={handleThematicWarningContinue}
+                      >
+                        I understand
+                      </button>
               </div>
             </div>
           </div>

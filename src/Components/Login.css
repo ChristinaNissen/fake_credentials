@@ -255,7 +255,7 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
-  align-items: start;
+  align-items: stretch;
 }
 
 .login-auth-scenarios-lead {
@@ -276,6 +276,7 @@
   box-shadow: 0 1px 4px 0 rgba(0,0,0,0.02);
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .login-input-scenario-meta {
@@ -362,7 +363,8 @@
   line-height: 1.6;
   font-weight: 400;
   color: #334155;
-  height: 8.2em;
+  min-height: 15em;
+  height: 15em;
 }
 
 .login-result-panel {
