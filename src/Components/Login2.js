@@ -281,6 +281,7 @@ const handleStep2Submit = async (e) => {
             id="login-auth-form"
             onSubmit={step === 1 ? handleStep1Submit : handleStep2Submit}
             className="login-form login-form-contained"
+            autoComplete="off"
           >
             <label htmlFor="regularPassword">Regular password</label>
             <div className="password-input-wrapper">
@@ -291,7 +292,8 @@ const handleStep2Submit = async (e) => {
                 value={regularPassword}
                 onChange={(e) => setRegularPassword(e.target.value)}
                 className="login-input"
-                autoComplete="username"
+                name="regular-passphrase"
+                autoComplete="new-password"
                 disabled={step === 2}
                 style={step === 2 ? { backgroundColor: "#fafafa", cursor: "not-allowed" } : undefined}
               />
@@ -318,7 +320,8 @@ const handleStep2Submit = async (e) => {
                     value={thematicPassword}
                     onChange={(e) => setThematicPassword(e.target.value)}
                     placeholder="Enter thematic password"
-                    autoComplete="current-password"
+                    name="thematic-passphrase"
+                    autoComplete="off"
                   />
                 </div>
                 {thematicPasswordError && <div className="login-error login-error-thematic">{thematicPasswordError}</div>}

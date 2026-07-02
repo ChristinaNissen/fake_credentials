@@ -149,7 +149,7 @@ const Welcome = () => {
 						<div className="coercion-video-frame">
 							{isHowToVoteVideoLoaded ? (
 								<iframe
-									src="https://www.youtube.com/embed/QScTyJwVqG0?autoplay=1"
+									src="https://www.youtube.com/embed/t0kPAPVxaGU?autoplay=1"
 									title="Instruction video on how to vote online"
 									loading="lazy"
 									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -163,7 +163,7 @@ const Welcome = () => {
 									aria-label="Play how to vote online video"
 								>
 									<img
-										src="https://img.youtube.com/vi/QScTyJwVqG0/maxresdefault.jpg"
+										src="https://img.youtube.com/vi/t0kPAPVxaGU/maxresdefault.jpg"
 										alt="Preview of how to vote online video"
 										className="video-launch-thumbnail"
 									/>
@@ -176,7 +176,7 @@ const Welcome = () => {
 						</div>
 						<p className="coercion-video-help">
 							If the video does not load, open it directly on
-							<a href="https://www.youtube.com/watch?v=QScTyJwVqG0" target="_blank" rel="noreferrer" onClick={handleHowToVoteYoutubeClick}> YouTube</a>.
+							<a href="https://www.youtube.com/watch?v=t0kPAPVxaGU" target="_blank" rel="noreferrer" onClick={handleHowToVoteYoutubeClick}> YouTube</a>.
 						</p>
 					</div>
 					<details className="optional-video-accordion">
@@ -189,7 +189,7 @@ const Welcome = () => {
 								<div className="coercion-video-frame">
 									{isCoercionVideoLoaded ? (
 										<iframe
-											src="https://www.youtube.com/embed/h-zbqLmdkKI?autoplay=1"
+											src="https://www.youtube.com/embed/7dwukfTmB-k?autoplay=1"
 											title="Instruction video on avoiding coercion"
 											loading="lazy"
 											allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -203,7 +203,7 @@ const Welcome = () => {
 											aria-label="Play how to avoid coercion video"
 										>
 											<img
-												src="https://img.youtube.com/vi/h-zbqLmdkKI/maxresdefault.jpg"
+												src="https://img.youtube.com/vi/7dwukfTmB-k/maxresdefault.jpg"
 												alt="Preview of how to avoid coercion video"
 												className="video-launch-thumbnail"
 											/>
@@ -216,7 +216,7 @@ const Welcome = () => {
 								</div>
 								<p className="coercion-video-help">
 									If the video does not load, open it directly on
-									<a href="https://www.youtube.com/watch?v=h-zbqLmdkKI" target="_blank" rel="noreferrer" onClick={handleCoercionYoutubeClick}> YouTube</a>.
+									<a href="https://www.youtube.com/watch?v=7dwukfTmB-k" target="_blank" rel="noreferrer" onClick={handleCoercionYoutubeClick}> YouTube</a>.
 								</p>
 							</div>
 						</div>

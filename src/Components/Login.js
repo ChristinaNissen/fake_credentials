@@ -291,6 +291,7 @@ These examples show how the thematic password works when the category is colours
             id="login-auth-form"
             onSubmit={step === 1 ? handleStep1Submit : handleStep2Submit}
             className="login-form login-form-contained"
+            autoComplete="off"
           >
             <label htmlFor="regularPassword">Regular password</label>
             <div className="password-input-wrapper">
@@ -301,7 +302,8 @@ These examples show how the thematic password works when the category is colours
                 value={regularPassword}
                 onChange={(e) => setRegularPassword(e.target.value)}
                 className="login-input"
-                autoComplete="username"
+                name="regular-passphrase"
+                autoComplete="new-password"
                 disabled={step === 2}
                 style={step === 2 ? { backgroundColor: "#fafafa", cursor: "not-allowed" } : undefined}
               />
@@ -334,7 +336,8 @@ These examples show how the thematic password works when the category is colours
                     }}
                     onFocus={handleThematicPasswordFocus}
                     placeholder="Enter thematic password"
-                    autoComplete="current-password"
+                    name="thematic-passphrase"
+                    autoComplete="off"
                     readOnly={!hasAcknowledgedThematicWarning}
                   />
                 </div>
