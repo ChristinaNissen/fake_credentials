@@ -681,6 +681,11 @@ section.card:hover {
   margin-right: 0!important;
 }
 
+.overview-image-login {
+  transform: scale(1.14);
+  transform-origin: center center;
+}
+
 .coercion-video-block {
   margin: 0 0 18px 0;
 }

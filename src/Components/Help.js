@@ -99,6 +99,34 @@ const helpSections = [
     ],
   },
   {
+    title: "Revoting",
+    items: [
+      {
+        id: "how-revoting-works",
+        title: "How does revoting works?",
+        content: (
+          <div className="space-y-2">
+<p>The online voting system allows you to recast your vote as many times as you wish until the election closes.</p>
+
+<p>Each time you revote, the system will ask you to login again  with your regular and thematic passwords. The system will then register your new vote and discard the previous one.</p>
+
+<p>Only your last valid online vote will count. If you also vote in person, your in-person vote takes precedence.</p>
+          </div>
+        ),
+      },
+      {
+        id: "change-vote-after-in-person",
+        title: "Can I change my vote if I already voted in person?",
+        content: (
+          <div className="space-y-2">
+            <p>
+No. Physical votes are final and cannot be changed. If you vote both digitally and physically, only your in-person vote will be counted.            </p>
+          </div>
+        ),
+      },
+    ],
+  },
+  {
     title: "Anti-Coercion Measures",
     items: [
       {

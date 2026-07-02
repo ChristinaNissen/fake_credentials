@@ -4,6 +4,7 @@ import ConsentForm from './Components/Study-Info/ConsentForm';
 import ConsentForm2 from './Components/Study-Info/ConsenForm2';
 import StudyInfo1 from './Components/Study-Info/StudyInfo1';
 import Welcome from './Components/Welcome';
+import Welcome2 from './Components/Welcome2';
 import Login from './Components/Login';
 import Voting from './Components/Voting';
 import Confirmation from './Components/Confirmation';
@@ -83,6 +84,7 @@ function App() {
             hasReachedStudyInfo2 ? <Navigate to="/studyinfo2" replace /> : <Confirmation setIsLoggedIn={setIsLoggedIn} />
           } />
           <Route path="/welcome" element={<Welcome />} />
+          <Route path="/welcome2" element={<Welcome2 />} />
           <Route path="/private-mode" element={<NoPrivateMode/>} />
           <Route path="/help" element={<Help />} />
           <Route path="*" element={<Navigate to="/welcome" replace />} />
